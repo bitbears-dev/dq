@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bitbears-dev/dq/builtin"
 	"github.com/itchyny/gojq"
 )
 
@@ -80,7 +81,7 @@ func (i *guessedInputIter) Next() (interface{}, bool) {
 	if i.t != nil {
 		t := i.t
 		i.t = nil
-		return encap(*t), true
+		return builtin.EncapTime(*t), true
 	}
 	return nil, false
 }

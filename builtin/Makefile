@@ -1,0 +1,9 @@
+.PHONY: all
+all: test
+
+.PHONY: test
+test:
+	go test
+
+.PHONY: clean
+clean:

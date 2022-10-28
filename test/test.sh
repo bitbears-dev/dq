@@ -113,6 +113,260 @@ dq_with_a_simple_filter() {
   print_ok
 }
 
+dq_supports_fromansic_filter() {
+  progress "dq supports fromansic() filter"
+  result="$( $bin 'fromansic("Fri Oct 28 05:59:07 2022")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666936747"
+  print_ok
+}
+
+dq_fromansic_filter_supports_stdin() {
+  progress "dq fromansic() filter supports stdin"
+  result="$( echo 'Fri Oct 28 05:59:07 2022' | $bin -R fromansic )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666936747"
+  print_ok
+}
+
+dq_supports_toansic_filter() {
+  progress "dq supports toansic() filter"
+  result="$( echo '1666936747' | $bin 'fromunix | utc | toansic' )"
+  assert_eq "$result" '"Fri Oct 28 05:59:07 2022"'
+  print_ok
+}
+
+dq_supports_fromunixdate_filter() {
+  progress "dq supports fromunixdate() filter"
+  result="$( $bin 'fromunixdate("Fri Oct 28 05:40:17 JST 2022")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_fromunixdate_filter_supports_stdin() {
+  progress "dq fromunixdate() filter supports stdin"
+  result="$( echo 'Fri Oct 28 05:40:17 JST 2022' | $bin -R fromunixdate )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_supports_tounixdate_filter() {
+  progress "dq supports tounixdate() filter"
+  result="$( echo '1666903217' | $bin 'fromunix | tounixdate ' )"
+  assert_eq "$result" '"Fri Oct 28 05:40:17 JST 2022"'
+  print_ok
+}
+
+dq_supports_fromrubydate_filter() {
+  progress "dq supports fromrubydate() filter"
+  result="$( $bin 'fromrubydate("Fri Oct 28 05:40:17 +0900 2022")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_fromrubydate_filter_supports_stdin() {
+  progress "dq fromrubydate() filter supports stdin"
+  result="$( echo 'Fri Oct 28 05:40:17 +0900 2022' | $bin -R fromrubydate )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_supports_torubydate_filter() {
+  progress "dq supports torubydate() filter"
+  result="$( echo '1666903217' | $bin 'fromunix | torubydate ' )"
+  assert_eq "$result" '"Fri Oct 28 05:40:17 +0900 2022"'
+  print_ok
+}
+
+dq_supports_fromrfc822_filter() {
+  progress "dq supports fromrfc822() filter"
+  result="$( $bin 'fromrfc822("28 Oct 22 05:40 JST")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903200"
+  print_ok
+}
+
+dq_fromrfc822_filter_supports_stdin() {
+  progress "dq fromrfc822() filter supports stdin"
+  result="$( echo '28 Oct 22 05:40 JST' | $bin -R fromrfc822 )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903200"
+  print_ok
+}
+
+dq_supports_torfc822_filter() {
+  progress "dq supports torfc822() filter"
+  result="$( echo '1666903200' | $bin 'fromunix | torfc822' )"
+  assert_eq "$result" '"28 Oct 22 05:40 JST"'
+  print_ok
+}
+
+dq_supports_fromrfc822z_filter() {
+  progress "dq supports fromrfc822z() filter"
+  result="$( $bin 'fromrfc822z("28 Oct 22 05:40 +0900")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903200"
+  print_ok
+}
+
+dq_fromrfc822z_filter_supports_stdin() {
+  progress "dq fromrfc822z() filter supports stdin"
+  result="$( echo '28 Oct 22 05:40 +0900' | $bin -R fromrfc822z )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903200"
+  print_ok
+}
+
+dq_supports_torfc822z_filter() {
+  progress "dq supports torfc822z() filter"
+  result="$( echo '1666903200' | $bin 'fromunix | torfc822z' )"
+  assert_eq "$result" '"28 Oct 22 05:40 +0900"'
+  print_ok
+}
+
+dq_supports_fromrfc850_filter() {
+  progress "dq supports fromrfc850() filter"
+  result="$( $bin 'fromrfc850("Friday, 28-Oct-22 05:40:17 JST")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_fromrfc850_filter_supports_stdin() {
+  progress "dq fromrfc850() filter supports stdin"
+  result="$( echo 'Friday, 28-Oct-22 05:40:17 JST' | $bin -R fromrfc850 )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_supports_torfc850_filter() {
+  progress "dq supports torfc850() filter"
+  result="$( echo '1666903217' | $bin 'fromunix | torfc850' )"
+  assert_eq "$result" '"Friday, 28-Oct-22 05:40:17 JST"'
+  print_ok
+}
+
+dq_supports_fromrfc1123_filter() {
+  progress "dq supports fromrfc1123() filter"
+  result="$( $bin 'fromrfc1123("Fri, 28 Oct 2022 05:40:17 JST")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_fromrfc1123_filter_supports_stdin() {
+  progress "dq fromrfc1123() filter supports stdin"
+  result="$( echo 'Fri, 28 Oct 2022 05:40:17 JST' | $bin -R fromrfc1123 )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_supports_torfc1123_filter() {
+  progress "dq supports torfc1123() filter"
+  result="$( echo '1666903217' | $bin 'fromunix | torfc1123' )"
+  assert_eq "$result" '"Fri, 28 Oct 2022 05:40:17 JST"'
+  print_ok
+}
+
+dq_supports_fromrfc1123z_filter() {
+  progress "dq supports fromrfc1123z() filter"
+  result="$( $bin 'fromrfc1123z("Fri, 28 Oct 2022 05:40:17 +0900")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_fromrfc1123z_filter_supports_stdin() {
+  progress "dq fromrfc1123z() filter supports stdin"
+  result="$( echo 'Fri, 28 Oct 2022 05:40:17 +0900' | $bin -R fromrfc1123z )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666903217"
+  print_ok
+}
+
+dq_supports_torfc1123z_filter() {
+  progress "dq supports torfc1123z() filter"
+  result="$( echo '1666903217' | $bin 'fromunix | torfc1123z' )"
+  assert_eq "$result" '"Fri, 28 Oct 2022 05:40:17 +0900"'
+  print_ok
+}
+
+dq_supports_fromrfc3339_filter() {
+  progress "dq supports fromrfc3339() filter"
+  result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666533781"
+  print_ok
+}
+
+dq_fromrfc3339_filter_supports_stdin() {
+  progress "dq fromrfc3339() filter supports stdin"
+  result="$( echo '2022-10-23T23:03:01+09:00' | $bin -R fromrfc3339 )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666533781"
+  print_ok
+}
+
+dq_supports_torfc3339_filter() {
+  progress "dq supports torfc3339() filter"
+  result="$( echo '1666533781' | $bin 'fromunix | torfc3339' )"
+  assert_eq "$result" '"2022-10-23T23:03:01+09:00"'
+  print_ok
+}
+
+dq_supports_fromrfc3339nano_filter() {
+  progress "dq supports fromrfc3339nano() filter"
+  result="$( $bin 'fromrfc3339nano("2022-10-23T23:03:01.123456789+09:00")' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666533781"
+  assert_json_has_field "$result" "unixNano"
+  assert_json_field_has_value "$result" "unixNano" "1666533781123456800"  # somehow it's rounded
+  print_ok
+}
+
+dq_fromrfc3339nano_filter_supports_stdin() {
+  progress "dq fromrfc3339nano() filter supports stdin"
+  result="$( echo '2022-10-23T23:03:01.123456788+09:00' | $bin -R fromrfc3339nano )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666533781"
+  assert_json_has_field "$result" "unixNano"
+  assert_json_field_has_value "$result" "unixNano" "1666533781123456800"  # somehow it's rounded
+  print_ok
+}
+
+dq_supports_torfc3339nano_filter() {
+  progress "dq supports torfc3339nano() filter"
+  result="$( echo '1666533781123456789' | $bin 'fromunixnano | torfc3339nano' )"
+  assert_eq "$result" '"2022-10-23T23:03:01.123456789+09:00"'
+  print_ok
+}
+
 dq_supports_fromunix_filter() {
   progress "dq supports fromunix() filter"
   result="$( $bin 'fromunix(1666533582)' )"
@@ -131,15 +385,6 @@ dq_fromunix_filter_supports_stdin() {
   print_ok
 }
 
-dq_supports_fromrfc3339_filter() {
-  progress "dq supports fromrfc3339() filter"
-  result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00")' )"
-  assert_json "$result"
-  assert_json_has_field "$result" "unix"
-  assert_json_field_has_value "$result" "unix" "1666533781"
-  print_ok
-}
-
 dq_supports_add_day_filter() {
   progress "dq supports add_day() filter"
   result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name' )"
@@ -152,11 +397,85 @@ dq_supports_raw_output() {
   assert_eq "$result" 'Monday'
 }
 
+# basics
 dq_without_arguments
 dq_with_a_simple_filter
+
+# fromunix()
 dq_supports_fromunix_filter
 dq_fromunix_filter_supports_stdin
+
+# fromansic()
+dq_supports_fromansic_filter
+dq_fromansic_filter_supports_stdin
+
+# toansic()
+dq_supports_toansic_filter
+
+# fromunixdate()
+dq_supports_fromunixdate_filter
+dq_fromunixdate_filter_supports_stdin
+
+# tounixdate()
+dq_supports_tounixdate_filter
+
+# fromrubydate()
+dq_supports_fromrubydate_filter
+dq_fromrubydate_filter_supports_stdin
+
+# torubydate()
+dq_supports_torubydate_filter
+
+# fromrfc822()
+dq_supports_fromrfc822_filter
+dq_fromrfc822_filter_supports_stdin
+
+# torfc822()
+dq_supports_torfc822_filter
+
+# fromrfc822z()
+dq_supports_fromrfc822z_filter
+dq_fromrfc822z_filter_supports_stdin
+
+# torfc822z()
+dq_supports_torfc822z_filter
+
+# fromrfc850()
+dq_supports_fromrfc850_filter
+dq_fromrfc850_filter_supports_stdin
+
+# torfc850()
+dq_supports_torfc850_filter
+
+# fromrfc1123()
+dq_supports_fromrfc1123_filter
+dq_fromrfc1123_filter_supports_stdin
+
+# torfc1123()
+dq_supports_torfc1123_filter
+
+# fromrfc1123z()
+dq_supports_fromrfc1123z_filter
+dq_fromrfc1123z_filter_supports_stdin
+
+# torfc1123z()
+dq_supports_torfc1123z_filter
+
+# fromrfc3339()
 dq_supports_fromrfc3339_filter
+dq_fromrfc3339_filter_supports_stdin
+
+# torfc3339()
+dq_supports_torfc3339_filter
+
+# fromrfc3339nano()
+dq_supports_fromrfc3339nano_filter
+dq_fromrfc3339nano_filter_supports_stdin
+
+# torfc3339nano()
+dq_supports_torfc3339nano_filter
+
+# add_day()
 dq_supports_add_day_filter
 dq_supports_raw_output
 

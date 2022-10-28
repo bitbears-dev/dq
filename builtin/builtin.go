@@ -13,10 +13,11 @@ func Now(_ interface{}, _ []interface{}) interface{} {
 }
 
 func FromUnix(v interface{}, args []interface{}) interface{} {
-	var u int64
 	if len(args) == 1 {
 		v = args[0]
 	}
+
+	var u int64
 	switch x := v.(type) {
 	case int:
 		u = int64(x)
@@ -34,11 +35,11 @@ func FromUnix(v interface{}, args []interface{}) interface{} {
 }
 
 func FromUnixMilli(v interface{}, args []interface{}) interface{} {
-	var u int64
 	if len(args) == 1 {
 		v = args[0]
 	}
 
+	var u int64
 	switch x := v.(type) {
 	case int:
 		u = int64(x)
@@ -52,6 +53,48 @@ func FromUnixMilli(v interface{}, args []interface{}) interface{} {
 		return errors.Errorf("unexpected type: %T", v)
 	}
 	return EncapTime(time.Unix(0, int64(u)*1000000))
+}
+
+func FromUnixMicro(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+
+	var u int64
+	switch x := v.(type) {
+	case int:
+		u = int64(x)
+	case string:
+		var err error
+		u, err = strconv.ParseInt(x, 10, 64)
+		if err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("unexpected type: %T", v)
+	}
+	return EncapTime(time.Unix(0, int64(u)*1000))
+}
+
+func FromUnixNano(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+
+	var u int64
+	switch x := v.(type) {
+	case int:
+		u = int64(x)
+	case string:
+		var err error
+		u, err = strconv.ParseInt(x, 10, 64)
+		if err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("unexpected type: %T", v)
+	}
+	return EncapTime(time.Unix(0, int64(u)))
 }
 
 func FromYMD(_ interface{}, args []interface{}) interface{} {
@@ -116,32 +159,48 @@ func FromYMDHMS(_ interface{}, args []interface{}) interface{} {
 	return EncapTime(time.Date(year, time.Month(month), day, hour, minute, second, 0, time.Local))
 }
 
-func FromRFC3339(v interface{}, args []interface{}) interface{} {
-	if len(args) == 1 {
-		v = args[0]
-	}
+type BuiltinFn func(interface{}, []interface{}) interface{}
 
-	if s, ok := v.(string); ok {
-		t, err := time.Parse(time.RFC3339, s)
-		if err != nil {
-			return errors.New("unable to parse as rfc3339")
+func FromKnownTimeFormat(layout string) BuiltinFn {
+	return func(v interface{}, args []interface{}) interface{} {
+		if s, ok := getStringArg(v, args); ok {
+			return timeFromString(layout, s)
 		}
-		return EncapTime(t)
+		return errors.Errorf("unexpected type: %T", v)
 	}
-
-	return errors.Errorf("unexpected type: %T", v)
 }
 
-func ToRFC3339(v interface{}, args []interface{}) interface{} {
+func ToKnownTimeFormat(layout string) BuiltinFn {
+	return func(v interface{}, args []interface{}) interface{} {
+		if t, ok := getTimeArg(v, args); ok {
+			return t.Format(layout)
+		}
+		return errors.Errorf("unexpected type: %T", v)
+	}
+}
+
+func getStringArg(v interface{}, args []interface{}) (string, bool) {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	s, ok := v.(string)
+	return s, ok
+}
+
+func getTimeArg(v interface{}, args []interface{}) (*time.Time, bool) {
 	if len(args) == 1 {
 		v = args[0]
 	}
 
-	if t, ok := DecapTime(v); ok {
-		return t.Format(time.RFC3339)
-	}
+	return DecapTime(v)
+}
 
-	return errors.Errorf("unexpected type: %T", v)
+func timeFromString(layout, value string) interface{} {
+	t, err := time.Parse(layout, value)
+	if err != nil {
+		return errors.New("unable to parse using the specified format")
+	}
+	return EncapTime(t)
 }
 
 func AddDay(v interface{}, args []interface{}) interface{} {

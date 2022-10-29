@@ -37,7 +37,7 @@ $ dq .year  # => shows current year
 ```
 
 ```
-$ dq 'from_unix(1666533582)'  # => shows info for the specified date / time. Note: single quotation marks `' ... '` around the filter expression are required to prevent parenthesis from being interpreted by the shell
+$ dq 'fromunix(1666533582)'  # => shows info for the specified date / time. Note: single quotation marks `' ... '` around the filter expression are required to prevent parenthesis from being interpreted by the shell
 {
   "am": false,
   "day": 23,
@@ -66,12 +66,12 @@ $ dq 'from_unix(1666533582)'  # => shows info for the specified date / time. Not
 ```
 
 ```
-$ echo 1666533582 | dq from_unix  # => you can provide the input from another process via the pipe
+$ echo 1666533582 | dq fromunix  # => you can provide the input from another process via the pipe
 (same above)
 ```
 
 ```
-$ dq 'from_rfc3339("2022-10-23T23:03:01+09:00")'
+$ dq 'fromrfc3339("2022-10-23T23:03:01+09:00")'
 {
   "am": false,
   "day": 23,
@@ -100,12 +100,12 @@ $ dq 'from_rfc3339("2022-10-23T23:03:01+09:00")'
 ```
 
 ```
-$ dq 'from_rfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'  # shows the name of weekday of the next day
+$ dq 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'  # shows the name of weekday of the next day
 "Monday"
 ```
 
 ```
-$ ./dq -r 'from_rfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'  # raw output (double quotation marks will be removed when the result is only a string)
+$ ./dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'  # raw output (double quotation marks will be removed when the result is only a string)
 Monday
 ```
 

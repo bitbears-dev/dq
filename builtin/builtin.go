@@ -1,6 +1,7 @@
 package builtin
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -231,22 +232,26 @@ func UTC(v interface{}, _ []interface{}) interface{} {
 func EncapTime(t time.Time) map[string]interface{} {
 	zoneName, offset := t.Zone()
 	return map[string]interface{}{
-		"_source":     t,
-		"unixNano":    t.UnixNano(),
-		"unixMicro":   t.UnixMicro(),
-		"unixMilli":   t.UnixMilli(),
-		"unix":        t.Unix(),
-		"year":        t.Year(),
-		"month":       int(t.Month()),
-		"day":         t.Day(),
-		"hour":        t.Hour(),
-		"hour12":      t.Hour() % 12,
-		"minute":      t.Minute(),
-		"second":      t.Second(),
-		"millisecond": t.Nanosecond() / 1000000,
-		"microsecond": t.Nanosecond() / 1000,
-		"nanosecond":  t.Nanosecond(),
-		"am":          t.Hour() < 12,
+		"_source":         t,
+		"unixNano":        t.UnixNano(),
+		"unixNanoString":  fmt.Sprintf("%d", t.UnixNano()),
+		"unixMicro":       t.UnixMicro(),
+		"unixMicroString": fmt.Sprintf("%d", t.UnixMicro()),
+		"unixMilli":       t.UnixMilli(),
+		"unixMilliString": fmt.Sprintf("%d", t.UnixMilli()),
+		"unix":            t.Unix(),
+		"unixString":      fmt.Sprintf("%d", t.Unix()),
+		"year":            t.Year(),
+		"month":           int(t.Month()),
+		"day":             t.Day(),
+		"hour":            t.Hour(),
+		"hour12":          t.Hour() % 12,
+		"minute":          t.Minute(),
+		"second":          t.Second(),
+		"millisecond":     t.Nanosecond() / 1000000,
+		"microsecond":     t.Nanosecond() / 1000,
+		"nanosecond":      t.Nanosecond(),
+		"am":              t.Hour() < 12,
 		"timezone": map[string]interface{}{
 			"short":         zoneName,
 			"offsetSeconds": offset,

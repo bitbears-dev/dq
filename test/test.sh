@@ -113,6 +113,78 @@ dq_with_a_simple_filter() {
   print_ok
 }
 
+dq_supports_fromunix_filter() {
+  progress "dq supports fromunix() filter"
+  result="$( $bin 'fromunix(1666533582)' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666533582"
+  print_ok
+}
+
+dq_fromunix_filter_supports_stdin() {
+  progress "dq fromunix() filter supports stdin"
+  result="$( echo '1666533582' | $bin fromunix )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "unix" "1666533582"
+  print_ok
+}
+
+dq_supports_fromunixmilli_filter() {
+  progress "dq supports fromunixmilli() filter"
+  result="$( $bin 'fromunixmilli(1666533582694)' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixMilli"
+  assert_json_field_has_value "$result" "unixMilli" "1666533582694"
+  print_ok
+}
+
+dq_fromunixmilli_filter_supports_stdin() {
+  progress "dq fromunixmilli() filter supports stdin"
+  result="$( echo '1666533582694' | $bin fromunixmilli )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixMilli"
+  assert_json_field_has_value "$result" "unixMilli" "1666533582694"
+  print_ok
+}
+
+dq_supports_fromunixmicro_filter() {
+  progress "dq supports fromunixmicro() filter"
+  result="$( $bin 'fromunixmicro(1666533582694357)' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixMicro"
+  assert_json_field_has_value "$result" "unixMicro" "1666533582694357"
+  print_ok
+}
+
+dq_fromunixmicro_filter_supports_stdin() {
+  progress "dq fromunixmicro() filter supports stdin"
+  result="$( echo '1666533582694357' | $bin fromunixmicro )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixMicro"
+  assert_json_field_has_value "$result" "unixMicro" "1666533582694357"
+  print_ok
+}
+
+dq_supports_fromunixnano_filter() {
+  progress "dq supports fromunixnano() filter"
+  result="$( $bin 'fromunixnano(1666533582694357016)' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixNanoString"
+  assert_json_field_has_value "$result" "unixNanoString" '"1666533582694357016"'
+  print_ok
+}
+
+dq_fromunixnano_filter_supports_stdin() {
+  progress "dq fromunixnano() filter supports stdin"
+  result="$( echo '1666533582694357016' | $bin fromunixnano )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixNanoString"
+  assert_json_field_has_value "$result" "unixNanoString" '"1666533582694357016"'
+  print_ok
+}
+
 dq_supports_fromansic_filter() {
   progress "dq supports fromansic() filter"
   result="$( $bin 'fromansic("Fri Oct 28 05:59:07 2022")' )"
@@ -367,24 +439,6 @@ dq_supports_torfc3339nano_filter() {
   print_ok
 }
 
-dq_supports_fromunix_filter() {
-  progress "dq supports fromunix() filter"
-  result="$( $bin 'fromunix(1666533582)' )"
-  assert_json "$result"
-  assert_json_has_field "$result" "unix"
-  assert_json_field_has_value "$result" "unix" "1666533582"
-  print_ok
-}
-
-dq_fromunix_filter_supports_stdin() {
-  progress "dq fromunix() filter supports stdin"
-  result="$( echo '1666533582' | $bin fromunix )"
-  assert_json "$result"
-  assert_json_has_field "$result" "unix"
-  assert_json_field_has_value "$result" "unix" "1666533582"
-  print_ok
-}
-
 dq_supports_add_day_filter() {
   progress "dq supports add_day() filter"
   result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name' )"
@@ -404,6 +458,18 @@ dq_with_a_simple_filter
 # fromunix()
 dq_supports_fromunix_filter
 dq_fromunix_filter_supports_stdin
+
+# fromunixmilli()
+dq_supports_fromunixmilli_filter
+dq_fromunixmilli_filter_supports_stdin
+
+# fromunixmicro()
+dq_supports_fromunixmicro_filter
+dq_fromunixmicro_filter_supports_stdin
+
+# fromunixnano()
+dq_supports_fromunixnano_filter
+dq_fromunixnano_filter_supports_stdin
 
 # fromansic()
 dq_supports_fromansic_filter

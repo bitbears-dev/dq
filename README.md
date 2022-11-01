@@ -21,9 +21,13 @@ $ dq  # => shows current date / time in JSON format
     "short": "JST"
   },
   "unix": 1666533582,
+  "unixString": "1666533582",
   "unixMicro": 1666533582479854,
+  "unixMicroString": "1666533582479854",
   "unixMilli": 1666533582479,
+  "unixMilliString": "1666533582479",
   "unixNano": 1666533582479854622,
+  "unixNanoString": "1666533582479854622",
   "weekday": {
     "name": "Sunday"
   },
@@ -55,9 +59,13 @@ $ dq 'fromunix(1666533582)'  # => shows info for the specified date / time. Note
     "short": "JST"
   },
   "unix": 1666533582,
+  "unixString": "1666533582",
   "unixMicro": 1666533582000000,
+  "unixMicroString": "1666533582000000",
   "unixMilli": 1666533582000,
+  "unixMilliString": "1666533582000",
   "unixNano": 1666533582000000000,
+  "unixNanoString": "1666533582000000000",
   "weekday": {
     "name": "Sunday"
   },
@@ -89,9 +97,13 @@ $ dq 'fromrfc3339("2022-10-23T23:03:01+09:00")'
     "short": "JST"
   },
   "unix": 1666533781,
+  "unixString": "1666533781",
   "unixMicro": 1666533781000000,
+  "unixMicroString": "1666533781000000",
   "unixMilli": 1666533781000,
+  "unixMilliString": "1666533781000",
   "unixNano": 1666533781000000000,
+  "unixNanoString": "1666533781000000000",
   "weekday": {
     "name": "Sunday"
   },

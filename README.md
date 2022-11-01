@@ -100,15 +100,70 @@ $ dq 'fromrfc3339("2022-10-23T23:03:01+09:00")'
 ```
 
 ```
-$ dq 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'  # shows the name of weekday of the next day
+$ dq 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'
+# => shows the name of weekday of the next day
 "Monday"
 ```
 
 ```
-$ ./dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'  # raw output (double quotation marks will be removed when the result is only a string)
+$ ./dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'
+# => raw output (double quotation marks will be removed when the result is only a string)
 Monday
 ```
 
 ## Install
 
 TBD
+
+
+## Reference
+
+- `fromunix` (`from_unix`)
+
+    $in:integer \vert string \rarr t:time $
+
+    in: Unix time represented in integer or string. e.g. `1666533582` or `"1666533582"`
+
+    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+
+    - `echo '1666533582' | dq fromunix`
+    - `dq fromunix(1666533582)`
+
+
+- `fromunixmilli` (`from_unixmilli`)
+
+    $in:integer \vert string \rarr t:time $
+
+    in: Unix time in milliseconds represented in integer or string. e.g. `1666533582694` or `"1666533582694"`
+
+    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+
+    - `echo '1666533582694' | dq fromunixmilli`
+    - `dq fromunixmilli(1666533582694)`
+
+
+- `fromunixmicro` (`from_unixmicro`)
+
+    $in:integer \vert string \rarr t:time $
+
+    in: Unix time in microseconds represented in integer or string. e.g. `1666533582694357` or `"1666533582694357"`
+
+    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+
+    - `echo '1666533582694357' | dq fromunixmicro`
+    - `dq fromunixmicro(1666533582694357)`
+
+
+- `fromunixnano` (`from_unixnano`)
+
+    $in:integer \vert string \rarr t:time $
+
+    in: Unix time in nanoseconds represented in integer or string. e.g. `1666533582694357016` or `"1666533582694357016"`
+
+    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+
+    - `echo '1666533582694357016' | dq fromunixnano`
+    - `dq fromunixnano(1666533582694357016)`
+
+
+-

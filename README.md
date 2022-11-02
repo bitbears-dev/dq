@@ -132,7 +132,7 @@ TBD
 
 - `fromunix` (`from_unix`)
 
-    $in:integer \vert string \rarr t:time $
+    $in:integer \vert string \rightarrow t:time $
 
     in: Unix time represented in integer or string. e.g. `1666533582` or `"1666533582"`
 
@@ -144,7 +144,7 @@ TBD
 
 - `fromunixmilli` (`from_unixmilli`)
 
-    $in:integer \vert string \rarr t:time $
+    $in:integer \vert string \rightarrow t:time $
 
     in: Unix time in milliseconds represented in integer or string. e.g. `1666533582694` or `"1666533582694"`
 
@@ -156,7 +156,7 @@ TBD
 
 - `fromunixmicro` (`from_unixmicro`)
 
-    $in:integer \vert string \rarr t:time $
+    $in:integer \vert string \rightarrow t:time $
 
     in: Unix time in microseconds represented in integer or string. e.g. `1666533582694357` or `"1666533582694357"`
 
@@ -168,7 +168,7 @@ TBD
 
 - `fromunixnano` (`from_unixnano`)
 
-    $in:integer \vert string \rarr t:time $
+    $in:integer \vert string \rightarrow t:time $
 
     in: Unix time in nanoseconds represented in integer or string. e.g. `1666533582694357016` or `"1666533582694357016"`
 
@@ -176,6 +176,3 @@ TBD
 
     - `echo '1666533582694357016' | dq fromunixnano`
     - `dq fromunixnano(1666533582694357016)`
-
-
--

@@ -176,6 +176,3 @@ TBD
 
     - `echo '1666533582694357016' | dq fromunixnano`
     - `dq fromunixnano(1666533582694357016)`
-
-
--

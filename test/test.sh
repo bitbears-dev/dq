@@ -96,6 +96,12 @@ assert_json_field_has_value() {
   fi
 }
 
+assert_match() {
+  local x=$1
+  local regexp=$2
+  [[ "$x" =~ $regexp ]]
+}
+
 dq_without_arguments() {
   progress "dq without arguments (expects json representing current date / time to be printed)"
   result="$( $bin )"
@@ -485,6 +491,14 @@ dq_can_use_strptime_output() {
   print_ok
 }
 
+dq_can_use_strftime() {
+  progress "dq can use strftime"
+  result="$( $bin -r '.unix | strftime("%Y-%m-%dT%H:%M:%SZ")' )"
+  assert_match "$result" "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+  print_ok
+}
+
+
 dq_supports_add_day_filter() {
   progress "dq supports add_day() filter"
   result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name' )"
@@ -593,6 +607,7 @@ dq_fromunixmilli_can_parse_floating_point_unix_time
 dq_fromunixmicro_can_parse_floating_point_unix_time
 dq_fromunixnano_can_parse_floating_point_unix_time
 dq_can_use_strptime_output
+dq_can_use_strftime
 
 # add_day()
 dq_supports_add_day_filter

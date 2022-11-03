@@ -439,6 +439,52 @@ dq_supports_torfc3339nano_filter() {
   print_ok
 }
 
+dq_fromunix_can_parse_floating_point_unix_time() {
+  progress "dq fromunix can parse floating point unix time"
+  result="$( $bin 'now | fromunix' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  print_ok
+}
+
+dq_fromunixmilli_can_parse_floating_point_unix_time() {
+  progress "dq fromunixmilli can parse floating point unix time"
+  result="$( $bin 'now | fromunixmilli' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixMilli"
+  print_ok
+}
+
+dq_fromunixmicro_can_parse_floating_point_unix_time() {
+  progress "dq fromunixmicro can parse floating point unix time"
+  result="$( $bin 'now | fromunixmicro' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixMicro"
+  print_ok
+}
+
+dq_fromunixnano_can_parse_floating_point_unix_time() {
+  progress "dq fromunixnano can parse floating point unix time"
+  result="$( $bin 'now | fromunixnano' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unixNano"
+  print_ok
+}
+
+dq_can_use_strptime_output() {
+  progress "dq can use strptime output"
+  result="$( echo '"2022-11-03T12:58:47Z"' | $bin 'strptime("%Y-%m-%dT%H:%M:%SZ") | mktime | fromunix | utc' )"
+  assert_json "$result"
+  assert_json_has_field "$result" "unix"
+  assert_json_field_has_value "$result" "year" "2022"
+  assert_json_field_has_value "$result" "month" "11"
+  assert_json_field_has_value "$result" "day" "3"
+  assert_json_field_has_value "$result" "hour" "12"
+  assert_json_field_has_value "$result" "minute" "58"
+  assert_json_field_has_value "$result" "second" "47"
+  print_ok
+}
+
 dq_supports_add_day_filter() {
   progress "dq supports add_day() filter"
   result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name' )"
@@ -540,6 +586,13 @@ dq_fromrfc3339nano_filter_supports_stdin
 
 # torfc3339nano()
 dq_supports_torfc3339nano_filter
+
+# interop with jq's date/time functions
+dq_fromunix_can_parse_floating_point_unix_time
+dq_fromunixmilli_can_parse_floating_point_unix_time
+dq_fromunixmicro_can_parse_floating_point_unix_time
+dq_fromunixnano_can_parse_floating_point_unix_time
+dq_can_use_strptime_output
 
 # add_day()
 dq_supports_add_day_filter

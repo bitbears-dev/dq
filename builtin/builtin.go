@@ -3,7 +3,9 @@ package builtin
 import (
 	"fmt"
 	"log"
+	"math"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -22,6 +24,12 @@ func FromUnix(v interface{}, args []interface{}) interface{} {
 	switch x := v.(type) {
 	case int:
 		u = int64(x)
+	case float64:
+		t, err := fromUnixF(x)
+		if err != nil {
+			return err
+		}
+		u = (*t).Unix()
 	case string:
 		var err error
 		u, err = strconv.ParseInt(x, 10, 64)
@@ -44,6 +52,12 @@ func FromUnixMilli(v interface{}, args []interface{}) interface{} {
 	switch x := v.(type) {
 	case int:
 		u = int64(x)
+	case float64:
+		t, err := fromUnixF(x)
+		if err != nil {
+			return err
+		}
+		u = (*t).UnixMilli()
 	case string:
 		var err error
 		u, err = strconv.ParseInt(x, 10, 64)
@@ -65,6 +79,12 @@ func FromUnixMicro(v interface{}, args []interface{}) interface{} {
 	switch x := v.(type) {
 	case int:
 		u = int64(x)
+	case float64:
+		t, err := fromUnixF(x)
+		if err != nil {
+			return err
+		}
+		u = (*t).UnixMicro()
 	case string:
 		var err error
 		u, err = strconv.ParseInt(x, 10, 64)
@@ -86,6 +106,12 @@ func FromUnixNano(v interface{}, args []interface{}) interface{} {
 	switch x := v.(type) {
 	case int:
 		u = int64(x)
+	case float64:
+		t, err := fromUnixF(x)
+		if err != nil {
+			return err
+		}
+		u = (*t).UnixNano()
 	case string:
 		var err error
 		u, err = strconv.ParseInt(x, 10, 64)
@@ -96,6 +122,19 @@ func FromUnixNano(v interface{}, args []interface{}) interface{} {
 		return errors.Errorf("unexpected type: %T", v)
 	}
 	return EncapTime(time.Unix(0, int64(u)))
+}
+
+func fromUnixF(f float64) (*time.Time, error) {
+	s := fmt.Sprintf("%.9f", f)
+	dotPos := strings.Index(s, ".")
+	intPart := int64(math.Floor(f))
+	decPart, err := strconv.ParseInt(s[dotPos+1:dotPos+10], 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	//log.Printf("s = %s, intPart = %d, decPart = %d", s, intPart, decPart)
+	t := time.Unix(intPart, decPart)
+	return &t, nil
 }
 
 func FromYMD(_ interface{}, args []interface{}) interface{} {

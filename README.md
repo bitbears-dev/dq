@@ -132,9 +132,9 @@ TBD
 
 - `fromunix` (`from_unix`)
 
-    $in:integer \vert string \rightarrow t:time $
+    $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time represented in integer or string. e.g. `1666533582` or `"1666533582"`
+    in: Unix time represented in integer, floating point number or string. e.g. `1666533582`, `166533582.694357016` or `"1666533582"`
 
     $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
@@ -144,9 +144,9 @@ TBD
 
 - `fromunixmilli` (`from_unixmilli`)
 
-    $in:integer \vert string \rightarrow t:time $
+    $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time in milliseconds represented in integer or string. e.g. `1666533582694` or `"1666533582694"`
+    in: Unix time in milliseconds represented in integer or string. e.g. `1666533582694`, `166533582.694357016` or `"1666533582694"`
 
     $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
@@ -156,9 +156,9 @@ TBD
 
 - `fromunixmicro` (`from_unixmicro`)
 
-    $in:integer \vert string \rightarrow t:time $
+    $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time in microseconds represented in integer or string. e.g. `1666533582694357` or `"1666533582694357"`
+    in: Unix time in microseconds represented in integer or string. e.g. `1666533582694357`, `166533582.694357016` or `"1666533582694357"`
 
     $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
@@ -168,9 +168,9 @@ TBD
 
 - `fromunixnano` (`from_unixnano`)
 
-    $in:integer \vert string \rightarrow t:time $
+    $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time in nanoseconds represented in integer or string. e.g. `1666533582694357016` or `"1666533582694357016"`
+    in: Unix time in nanoseconds represented in integer or string. e.g. `1666533582694357016`, `166533582.694357016` or `"1666533582694357016"`
 
     $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 

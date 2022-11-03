@@ -271,7 +271,7 @@ func UTC(v interface{}, _ []interface{}) interface{} {
 func EncapTime(t time.Time) map[string]interface{} {
 	zoneName, offset := t.Zone()
 	return map[string]interface{}{
-		"_source":         t,
+		"__dq__source":    t,
 		"unixNano":        t.UnixNano(),
 		"unixNanoString":  fmt.Sprintf("%d", t.UnixNano()),
 		"unixMicro":       t.UnixMicro(),
@@ -308,7 +308,7 @@ func DecapTime(v interface{}) (*time.Time, bool) {
 		return nil, false
 	}
 
-	source, ok := m["_source"]
+	source, ok := m["__dq__source"]
 	if !ok {
 		return nil, false
 	}

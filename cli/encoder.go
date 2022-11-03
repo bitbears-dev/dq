@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 	"unicode/utf8"
 )
@@ -194,7 +195,7 @@ func (e *encoder) encodeMap(vs map[string]interface{}) error {
 	kvs := make([]keyVal, 0, len(vs))
 	var i int
 	for k, v := range vs {
-		if k == "_source" {
+		if strings.HasPrefix(k, "__dq__") {
 			continue
 		}
 		kvs = append(kvs, keyVal{k, v})

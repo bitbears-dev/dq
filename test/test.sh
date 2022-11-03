@@ -108,7 +108,7 @@ dq_without_arguments() {
   assert_json "$result"
   assert_json_has_field "$result" "unix"
   assert_json_field_has_value "$result" "year" "$( date +%Y )"
-  assert_json_does_not_have_field "$result" "_source"  # should not expose internal field '_source'
+  assert_json_does_not_have_field "$result" "__dq__source"  # should not expose internal field '_source'
   print_ok
 }
 

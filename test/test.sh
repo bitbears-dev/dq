@@ -4,6 +4,7 @@ set -Eeuo pipefail
 d="$( cd "$( dirname "$0" )"; cd ..; pwd -P )"
 
 bin=${DQ_BIN:-"$d/cmd/dq/dq"}
+ls -l "$bin"
 
 RESET=$'\e[0m'
 BOLD=$'\e[1m'

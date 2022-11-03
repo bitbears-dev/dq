@@ -11,10 +11,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-func Now(_ interface{}, _ []interface{}) interface{} {
-	return EncapTime(time.Now())
-}
-
 func FromUnix(v interface{}, args []interface{}) interface{} {
 	if len(args) == 1 {
 		v = args[0]

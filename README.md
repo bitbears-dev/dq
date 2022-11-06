@@ -130,6 +130,51 @@ TBD
 
 ## Reference
 
+### Types
+
+- $time$
+
+  | Field name        | Type       | Description                                                             |
+  | -------------     | ---------- | ----------------------------------------------------------------------- |
+  | `am`              | bool       | `true`: AM, `false`: PM                                                 |
+  | `day`             | integer    | Day of the month                                                        |
+  | `dayOfYear`       | integer    | Day of the year                                                         |
+  | `hour`            | integer    | Hour within the day, 24-hour format i.e. in range [0, 23]               |
+  | `hour12`          | integer    | Hour within the day, 12-hour format i.e. in range [0, 12]               |
+  | `microsecond`     | integer    | Microsecond offset within the second, in range [0, 999999]              |
+  | `millisecond`     | integer    | Millisecond offset within the second, in range [0, 999]                 |
+  | `minute`          | integer    | Minute offset within the hour, in range [0, 59]                         |
+  | `month`           | integer    | Month of the year                                                       |
+  | `nanosecond`      | integer    | Nanosecond offset within the second, in range [0, 999999999]            |
+  | `second`          | integer    | Second offset within the minute, in range [0, 59]                       |
+  | `timezone`        | $timezone$ | Timezone object to describe the timezone                                |
+  | `unix`            | integer    | Unix time, the number of seconds elapsed since January 1, 1970 UTC      |
+  | `unixMicro`       | integer    | Unix time, the number of microseconds elapsed since January 1, 1970 UTC |
+  | `unixMicroString` | string     | String representation of `unixMicro`                                    |
+  | `unixMilli`       | integer    | Unix time, the number of milliseconds elapsed since January 1, 1970 UTC |
+  | `unixMilliString` | string     | String representation of `unixMilli`                                    |
+  | `unixNano`        | integer    | Unix time, the number of nanoseconds elapsed since January 1, 1970 UTC <br/> Note: Some JSON implementations cannot handle integer values of `unixNano` correctly because the values exceed the number of significant digits. Use `unixNanoString` instead to avoid the issue. |
+  | `unixNanoString`  | string     | String representation of `unixNano`                                     |
+  | `unixString`      | string     | String representation of `unix`                                         |
+  | `weekday`         | $weekday$  | Weekday object to describe the day of the week                          |
+  | `year`            | integer    | Year                                                                    |
+
+- `timezone`
+
+  | Field name      | Type    | Description                  |
+  | --------------- | ------- | ---------------------------- |
+  | `offsetSeconds` | integer | Offset in seconds            |
+  | `short`         | string  | Abbreviated name of the zone |
+
+- `weekday`
+
+  | Field name      | Type    | Description             |
+  | --------------- | ------- | ----------------------- |
+  | `name`          | string  | English name of the day |
+
+
+### Functions
+
 - `fromunix` (`from_unix`)
 
     $in:integer \vert float \vert string \rightarrow t:time $

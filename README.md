@@ -159,14 +159,14 @@ TBD
   | `weekday`         | $weekday$  | Weekday object to describe the day of the week                          |
   | `year`            | integer    | Year                                                                    |
 
-- `timezone`
+- $timezone$
 
   | Field name      | Type    | Description                  |
   | --------------- | ------- | ---------------------------- |
   | `offsetSeconds` | integer | Offset in seconds            |
   | `short`         | string  | Abbreviated name of the zone |
 
-- `weekday`
+- $weekday$
 
   | Field name      | Type    | Description             |
   | --------------- | ------- | ----------------------- |

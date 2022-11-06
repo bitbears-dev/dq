@@ -22,5 +22,5 @@ jobs:
       - name: Build artifacts
         run: make
 
-      - name: E2E test
-        run: bash -x ./test/test.sh
+      - name: E2E test with TTY (we need it!)
+        run: docker run -t --rm -v $(pwd):/src -w /src ubuntu:latest bash -c 'apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends jq tzdata && ./test/test.sh'

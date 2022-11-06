@@ -22,4 +22,5 @@ update-deps:
 
 .PHONY: e2e-test
 e2e-test:
-	test/test.sh
+	TZ=Asia/Tokyo test/test.sh
+	TZ=US/Pacific test/test.sh

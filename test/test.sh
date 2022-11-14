@@ -500,16 +500,22 @@ dq_can_use_strftime() {
 }
 
 
-dq_supports_add_day_filter() {
-  progress "dq supports add_day() filter"
-  result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name' )"
+dq_supports_add_date_filter() {
+  progress "dq supports add_date() filter"
+  result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0; 0; 1) | .weekday.name' )"
   assert_eq "$result" '"Monday"'
+  result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0; 1; 0) | .month' )"
+  assert_eq "$result" '11'
+  result="$( $bin 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(1; 0; 0) | .year' )"
+  assert_eq "$result" '2023'
+  print_ok
 }
 
 dq_supports_raw_output() {
   progress "dq supports raw output"
-  result="$( $bin -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name' )"
+  result="$( $bin -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0; 0; 1) | .weekday.name' )"
   assert_eq "$result" 'Monday'
+  print_ok
 }
 
 # basics
@@ -610,8 +616,8 @@ dq_fromunixnano_can_parse_floating_point_unix_time
 dq_can_use_strptime_output
 dq_can_use_strftime
 
-# add_day()
-dq_supports_add_day_filter
+# add_date()
+dq_supports_add_date_filter
 dq_supports_raw_output
 
 test_result=0

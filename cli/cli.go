@@ -133,7 +133,9 @@ func (c *CLI) run(args []string) error {
 		gojq.WithFunction("from_stampnano", 0, 1, builtin.FromKnownTimeFormat(time.StampNano)),
 		gojq.WithFunction("tostampnano", 0, 1, builtin.ToKnownTimeFormat(time.StampNano)),
 		gojq.WithFunction("to_stampnano", 0, 1, builtin.ToKnownTimeFormat(time.StampNano)),
-		gojq.WithFunction("add_day", 1, 1, builtin.AddDay),
+		gojq.WithFunction("add_date", 3, 3, builtin.AddDate),
+		gojq.WithFunction("clock", 0, 0, builtin.Clock),
+		gojq.WithFunction("date", 0, 0, builtin.Date),
 		gojq.WithFunction("utc", 0, 0, builtin.UTC),
 	)
 	if err != nil {

@@ -239,20 +239,56 @@ func timeFromString(layout, value string) interface{} {
 	return EncapTime(t)
 }
 
-func AddDay(v interface{}, args []interface{}) interface{} {
+func AddDate(v interface{}, args []interface{}) interface{} {
 	t, ok := DecapTime(v)
 	if !ok {
-		return errors.Errorf("unexpected type: %T", v)
+		return errors.Errorf("expected time, but found unexpected type: %T", v)
 	}
-	if len(args) < 1 {
+	if len(args) < 3 {
 		return errors.New("insufficient arguments")
 	}
-	switch d := args[0].(type) {
-	case int:
-		return EncapTime(t.Add(time.Duration(d) * 24 * time.Hour))
-	default:
-		return errors.Errorf("unexpected argument type: %T", d)
+
+	years, err := interpretAsInt(args[0])
+	if err != nil {
+		return err
 	}
+	months, err := interpretAsInt(args[1])
+	if err != nil {
+		return err
+	}
+	days, err := interpretAsInt(args[2])
+	if err != nil {
+		return err
+	}
+
+	return EncapTime(t.AddDate(years, months, days))
+}
+
+func interpretAsInt(arg interface{}) (int, error) {
+	switch d := arg.(type) {
+	case int:
+		return d, nil
+	default:
+		return 0, errors.Errorf("unexpected argument type: %T", d)
+	}
+}
+
+func Clock(v interface{}, _ []interface{}) interface{} {
+	t, ok := DecapTime(v)
+	if !ok {
+		return errors.Errorf("expected time, but found unexpected type: %T", v)
+	}
+	h, m, s := t.Clock()
+	return []interface{}{h, m, s}
+}
+
+func Date(v interface{}, _ []interface{}) interface{} {
+	t, ok := DecapTime(v)
+	if !ok {
+		return errors.Errorf("expected time, but found unexpected type: %T", v)
+	}
+	y, m, d := t.Date()
+	return []interface{}{y, int(m), d}
 }
 
 func UTC(v interface{}, _ []interface{}) interface{} {
@@ -295,6 +331,7 @@ func EncapTime(t time.Time) map[string]interface{} {
 			"name": t.Weekday().String(),
 		},
 		"dayOfYear": t.YearDay(),
+		"rfc3339":   t.Format(time.RFC3339),
 	}
 }
 

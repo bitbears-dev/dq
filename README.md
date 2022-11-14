@@ -175,49 +175,192 @@ TBD
 
 ### Functions
 
-- `fromunix` (`from_unix`)
+- Format conversion
+  <details>
+  <summary><code>fromunix</code> (<code>from_unix</code>)</summary>
+
+    Generate $time$ object from Unix time.
 
     $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time represented in integer, floating point number or string. e.g. `1666533582`, `166533582.694357016` or `"1666533582"`
+    - $in$: Unix time represented in integer, floating point number or string. e.g. `1666533582`, `166533582.694357016` or `"1666533582"`
 
-    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+      $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
-    - `echo '1666533582' | dq fromunix`
-    - `dq fromunix(1666533582)`
+      - `echo '1666533582' | dq fromunix`
+      - `dq fromunix(1666533582)`
 
+    - $t$: $time$ object representing local time.
 
-- `fromunixmilli` (`from_unixmilli`)
+  </details>
 
-    $in:integer \vert float \vert string \rightarrow t:time $
+  <details>
+  <summary><code>fromunixmilli</code> (<code>from_unixmilli</code>)</summary>
 
-    in: Unix time in milliseconds represented in integer or string. e.g. `1666533582694`, `166533582.694357016` or `"1666533582694"`
-
-    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
-
-    - `echo '1666533582694' | dq fromunixmilli`
-    - `dq fromunixmilli(1666533582694)`
-
-
-- `fromunixmicro` (`from_unixmicro`)
+    Generate $time$ object from Unix time (in milliseconds).
 
     $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time in microseconds represented in integer or string. e.g. `1666533582694357`, `166533582.694357016` or `"1666533582694357"`
+    - $in$: Unix time in milliseconds represented in integer or string. e.g. `1666533582694`, `166533582.694357016` or `"1666533582694"`
 
-    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+      $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
-    - `echo '1666533582694357' | dq fromunixmicro`
-    - `dq fromunixmicro(1666533582694357)`
+      - `echo '1666533582694' | dq fromunixmilli`
+      - `dq fromunixmilli(1666533582694)`
 
+    - $t$: $time$ object representing local time.
 
-- `fromunixnano` (`from_unixnano`)
+  </details>
+
+  <details>
+  <summary><code>fromunixmicro</code> (<code>from_unixmicro</code>)</summary>
+
+    Generate $time$ object from Unix time (in microseconds).
 
     $in:integer \vert float \vert string \rightarrow t:time $
 
-    in: Unix time in nanoseconds represented in integer or string. e.g. `1666533582694357016`, `166533582.694357016` or `"1666533582694357016"`
+    - $in$: Unix time in microseconds represented in integer or string. e.g. `1666533582694357`, `166533582.694357016` or `"1666533582694357"`
 
-    $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+      $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
-    - `echo '1666533582694357016' | dq fromunixnano`
-    - `dq fromunixnano(1666533582694357016)`
+      - `echo '1666533582694357' | dq fromunixmicro`
+      - `dq fromunixmicro(1666533582694357)`
+
+    - $t$: $time$ object representing local time.
+
+  </details>
+
+
+  <details>
+  <summary><code>fromunixnano</code> (<code>from_unixnano</code>)</summary>
+
+    Generate $time$ object from Unix time (in nanoseconds).
+
+    $in:integer \vert float \vert string \rightarrow t:time $
+
+    - $in$: Unix time in nanoseconds represented in integer or string. e.g. `1666533582694357016`, `166533582.694357016` or `"1666533582694357016"`
+
+      $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
+
+      - `echo '1666533582694357016' | dq fromunixnano`
+      - `dq fromunixnano(1666533582694357016)`
+
+    - $t$: $time$ object representing local time.
+
+  </details>
+
+  <details>
+  <summary><code>fromansic</code> (<code>from_ansic</code>)</summary>
+
+    Generate $time$ object from an ANSI C style string.
+
+    $in: string \rightarrow t:time$
+
+    - $in$: ANSI C style string. e.g. "Fri Oct 28 05:59:07 2022"
+
+      $in$ can be provided from input stream or the first item of the arguments. i.e. all of the following are supported:
+
+      - `echo '"Fri Oct 28 05:59:07 2022"' | dq fromansic`
+      - `echo 'Fri Oct 28 05:59:07 2022' | dq -R fromansic`
+      - `dq fromansic("Fri Oct 28 05:59:07 2022")`
+
+    - $t$: $time$ object representing universal time.
+
+      Note: `fromansic` always parses the input string as UTC. Timezones are not supported.
+
+  </details>
+
+  <details>
+  <summary><code>toansic</code> (<code>to_ansic</code>)</summary>
+
+    Generate ANSI C style string represents $time$ object.
+
+    $t: time \rightarrow out: string$
+
+    - $t$: $time$ object
+
+    - $out$: ANSI C style string represents the time specified by the $time$ object.
+
+      e.g.)
+      ```
+      echo '1666936747' | dq 'fromunix | utc | toansic'
+      #=> "Fri Oct 28 05:59:07 2022"
+      ```
+
+  </details>
+
+  <details>
+  <summary><code>fromunixdate</code> (<code>from_unixdate</code>)</summary>
+
+    Generate $time$ object from a Unix date style string. "Unix date style" means the output format of `date` command with `LC_TIME=C`.
+
+    $in: string \rightarrow t:time$
+
+    - $in$: Unix date style string. e.g. "Fri Oct 28 05:59:07 JST 2022"
+
+      $in$ can be provided from input stream or the first item of the arguments. i.e. all of the following are supported:
+
+      - `echo '"Fri Oct 28 05:59:07 JST 2022"' | dq fromunixdate`
+      - `echo 'Fri Oct 28 05:59:07 JST 2022' | dq -R fromunixdate`
+      - `dq fromunixdate("Fri Oct 28 05:59:07 JST 2022")`
+
+    - $t$: $time$ object representing the specified time.
+
+  </details>
+
+  <details>
+  <summary><code>tounixdate</code> (<code>to_unixdate</code>)</summary>
+
+    Generate Unix date style string represents $time$ object. "Unix date style" means the output format of `date` command with `LC_TIME=C`
+
+    $t: time \rightarrow out: string$
+
+    - $t$: $time$ object
+
+    - $out$: Unix date style string represents the time specified by the $time$ object.
+
+      e.g.)
+      ```
+      echo '1666936747' | TZ=Asia/Tokyo dq 'fromunix | tounixdate'
+      #=> "Fri Oct 28 14:59:07 JST 2022"
+      ```
+
+  </details>
+
+  <details>
+  <summary><code>fromrubydate</code> (<code>from_rubydate</code>)</summary>
+
+    Generate $time$ object from a Ruby Date style string.
+
+    $in: string \rightarrow t:time$
+
+    - $in$: Ruby Date style string. e.g. "Fri Oct 28 05:59:07 +0900 2022"
+
+      $in$ can be provided from input stream or the first item of the arguments. i.e. all of the following are supported:
+
+      - `echo '"Fri Oct 28 05:59:07 +0900 2022"' | dq fromrubydate`
+      - `echo 'Fri Oct 28 05:59:07 +0900 2022' | dq -R fromrubydate`
+      - `dq fromrubydate("Fri Oct 28 05:59:07 +0900 2022")`
+
+    - $t$: $time$ object representing the specified time.
+
+  </details>
+
+  <details>
+  <summary><code>torubydate</code> (<code>to_rubydate</code>)</summary>
+
+    Generate Ruby Date style string represents $time$ object.
+
+    $t: time \rightarrow out: string$
+
+    - $t$: $time$ object
+
+    - $out$: Ruby Date style string represents the time specified by the $time$ object.
+
+      e.g.)
+      ```
+      echo '1666903217' | TZ=Asia/Tokyo dq 'fromunix | torubydate'
+      #=> "Fri Oct 28 05:40:17 +0900 2022"
+      ```
+
+  </details>

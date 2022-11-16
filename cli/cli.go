@@ -62,6 +62,7 @@ func (c *CLI) run(args []string) error {
 	defer iter.Close()
 
 	code, err := gojq.Compile(query,
+		gojq.WithFunction("guess", 0, 1, builtin.Guess),
 		gojq.WithFunction("fromunix", 0, 1, builtin.FromUnix),
 		gojq.WithFunction("from_unix", 0, 1, builtin.FromUnix),
 		gojq.WithFunction("fromunixmilli", 0, 1, builtin.FromUnixMilli),

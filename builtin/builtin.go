@@ -4,12 +4,77 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/pkg/errors"
 )
+
+var supportedKnownTimeFormats = []string{
+	time.RFC822,
+	time.RFC822Z,
+	time.RFC850,
+	time.RFC1123,
+	time.RFC1123Z,
+	time.RFC3339,
+	time.RFC3339Nano,
+	time.ANSIC,
+	time.UnixDate,
+	time.RubyDate,
+}
+
+func Guess(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+
+	if isLikelyUnix(v) {
+		return FromUnix(v, args)
+	}
+
+	if isLikelyUnixMilli(v) {
+		return FromUnixMilli(v, args)
+	}
+
+	if isLikelyUnixMicro(v) {
+		return FromUnixMicro(v, args)
+	}
+
+	if isLikelyUnixNano(v) {
+		return FromUnixNano(v, args)
+	}
+
+	if s, ok := v.(string); ok {
+		for _, f := range supportedKnownTimeFormats {
+			t := timeFromString(f, s)
+			if _, ok := t.(error); !ok {
+				return t
+			}
+		}
+	}
+
+	return errors.New("unable to guess")
+}
+
+var reAllDigits = regexp.MustCompile("^[[:digit:]]+$")
+
+func isLikelyUnix(v interface{}) bool {
+	lenNow := len(fmt.Sprintf("%d", time.Now().Unix()))
+	switch x := v.(type) {
+	case int:
+		if lenNow == len(fmt.Sprintf("%d", x)) {
+			return true
+		}
+	case string:
+		if lenNow == len(x) && reAllDigits.MatchString(x) {
+			return true
+		}
+	}
+
+	return false
+}
 
 func FromUnix(v interface{}, args []interface{}) interface{} {
 	if len(args) == 1 {
@@ -39,6 +104,22 @@ func FromUnix(v interface{}, args []interface{}) interface{} {
 	return EncapTime(time.Unix(int64(u), 0))
 }
 
+func isLikelyUnixMilli(v interface{}) bool {
+	lenNow := len(fmt.Sprintf("%d", time.Now().UnixMilli()))
+	switch x := v.(type) {
+	case int:
+		if lenNow == len(fmt.Sprintf("%d", x)) { // diff is smaller than 100 years from now
+			return true
+		}
+	case string:
+		if lenNow == len(x) && reAllDigits.MatchString(x) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func FromUnixMilli(v interface{}, args []interface{}) interface{} {
 	if len(args) == 1 {
 		v = args[0]
@@ -66,6 +147,22 @@ func FromUnixMilli(v interface{}, args []interface{}) interface{} {
 	return EncapTime(time.Unix(0, int64(u)*1000000))
 }
 
+func isLikelyUnixMicro(v interface{}) bool {
+	lenNow := len(fmt.Sprintf("%d", time.Now().UnixMicro()))
+	switch x := v.(type) {
+	case int:
+		if lenNow == len(fmt.Sprintf("%d", x)) { // diff is smaller than 100 years from now
+			return true
+		}
+	case string:
+		if lenNow == len(x) && reAllDigits.MatchString(x) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func FromUnixMicro(v interface{}, args []interface{}) interface{} {
 	if len(args) == 1 {
 		v = args[0]
@@ -91,6 +188,24 @@ func FromUnixMicro(v interface{}, args []interface{}) interface{} {
 		return errors.Errorf("unexpected type: %T", v)
 	}
 	return EncapTime(time.Unix(0, int64(u)*1000))
+}
+
+func isLikelyUnixNano(v interface{}) bool {
+	lenNow := len(fmt.Sprintf("%d", time.Now().UnixNano()))
+	switch x := v.(type) {
+	case int:
+		if lenNow == len(fmt.Sprintf("%d", x)) { // diff is smaller than 100 years from now
+			return true
+		}
+	case float64:
+		return true
+	case string:
+		if lenNow == len(x) && reAllDigits.MatchString(x) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func FromUnixNano(v interface{}, args []interface{}) interface{} {
@@ -302,6 +417,7 @@ func UTC(v interface{}, _ []interface{}) interface{} {
 
 func EncapTime(t time.Time) map[string]interface{} {
 	zoneName, offset := t.Zone()
+	year := t.Year()
 	return map[string]interface{}{
 		"__dq__source":    t,
 		"unixNano":        t.UnixNano(),
@@ -312,7 +428,7 @@ func EncapTime(t time.Time) map[string]interface{} {
 		"unixMilliString": fmt.Sprintf("%d", t.UnixMilli()),
 		"unix":            t.Unix(),
 		"unixString":      fmt.Sprintf("%d", t.Unix()),
-		"year":            t.Year(),
+		"year":            year,
 		"month":           int(t.Month()),
 		"day":             t.Day(),
 		"hour":            t.Hour(),
@@ -332,6 +448,7 @@ func EncapTime(t time.Time) map[string]interface{} {
 		},
 		"dayOfYear": t.YearDay(),
 		"rfc3339":   t.Format(time.RFC3339),
+		"leapYear":  year%4 == 0 && (year%100 != 0 || year%400 == 0),
 	}
 }
 

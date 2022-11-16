@@ -364,3 +364,41 @@ TBD
       ```
 
   </details>
+
+  <details>
+  <summary><code>fromrfc822</code> (<code>from_rfc822</code>)</summary>
+
+    Generate $time$ object from a RFC822 string.
+
+    $in: string \rightarrow t:time$
+
+    - $in$: RFC822 string. e.g. "28 Oct 22 05:59:07 JST"
+
+      $in$ can be provided from input stream or the first item of the arguments. i.e. all of the following are supported:
+
+      - `echo '"28 Oct 22 05:59:07 JST"' | dq fromrfc822`
+      - `echo '28 Oct 22 05:59:07 JST' | dq -R fromrfc822`
+      - `dq fromrfc822("28 Oct 22 05:59:07 JST")`
+
+    - $t$: $time$ object representing the specified time.
+
+  </details>
+
+  <details>
+  <summary><code>torfc822</code> (<code>to_rfc822</code>)</summary>
+
+    Generate RFC822 style string represents $time$ object.
+
+    $t: time \rightarrow out: string$
+
+    - $t$: $time$ object
+
+    - $out$: RFC822 string represents the time specified by the $time$ object.
+
+      e.g.)
+      ```
+      echo '1666903217' | TZ=Asia/Tokyo dq 'fromunix | torfc822'
+      #=> "28 Oct 22 05:40:17 JST"
+      ```
+
+  </details>

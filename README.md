@@ -132,7 +132,8 @@ TBD
 
 ### Types
 
-- $time$
+<details>
+<summary><code>time</code></summary>
 
   | Field name        | Type       | Description                                                             |
   | -------------     | ---------- | ----------------------------------------------------------------------- |
@@ -141,6 +142,7 @@ TBD
   | `dayOfYear`       | integer    | Day of the year                                                         |
   | `hour`            | integer    | Hour within the day, 24-hour format i.e. in range [0, 23]               |
   | `hour12`          | integer    | Hour within the day, 12-hour format i.e. in range [0, 12]               |
+  | `leapYear`        | bool       | Whether the year is a leap year or not                                  |
   | `microsecond`     | integer    | Microsecond offset within the second, in range [0, 999999]              |
   | `millisecond`     | integer    | Millisecond offset within the second, in range [0, 999]                 |
   | `minute`          | integer    | Minute offset within the hour, in range [0, 59]                         |
@@ -158,20 +160,24 @@ TBD
   | `unixString`      | string     | String representation of `unix`                                         |
   | `weekday`         | $weekday$  | Weekday object to describe the day of the week                          |
   | `year`            | integer    | Year                                                                    |
+</details>
 
-- $timezone$
+<details>
+<summary><code>timezone</code></summary>
 
   | Field name      | Type    | Description                  |
   | --------------- | ------- | ---------------------------- |
   | `offsetSeconds` | integer | Offset in seconds            |
   | `short`         | string  | Abbreviated name of the zone |
+</details>
 
-- $weekday$
+<details>
+<summary><code>weekday</code></summary>
 
   | Field name      | Type    | Description             |
   | --------------- | ------- | ----------------------- |
   | `name`          | string  | English name of the day |
-
+</details>
 
 ### Functions
 
@@ -188,7 +194,7 @@ TBD
       $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
       - `echo '1666533582' | dq fromunix`
-      - `dq fromunix(1666533582)`
+      - `dq 'fromunix(1666533582)'`
 
     - $t$: $time$ object representing local time.
 
@@ -206,7 +212,7 @@ TBD
       $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
       - `echo '1666533582694' | dq fromunixmilli`
-      - `dq fromunixmilli(1666533582694)`
+      - `dq 'fromunixmilli(1666533582694)'`
 
     - $t$: $time$ object representing local time.
 
@@ -224,7 +230,7 @@ TBD
       $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
       - `echo '1666533582694357' | dq fromunixmicro`
-      - `dq fromunixmicro(1666533582694357)`
+      - `dq 'fromunixmicro(1666533582694357)'`
 
     - $t$: $time$ object representing local time.
 
@@ -243,7 +249,7 @@ TBD
       $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
 
       - `echo '1666533582694357016' | dq fromunixnano`
-      - `dq fromunixnano(1666533582694357016)`
+      - `dq 'fromunixnano(1666533582694357016)'`
 
     - $t$: $time$ object representing local time.
 
@@ -262,7 +268,7 @@ TBD
 
       - `echo '"Fri Oct 28 05:59:07 2022"' | dq fromansic`
       - `echo 'Fri Oct 28 05:59:07 2022' | dq -R fromansic`
-      - `dq fromansic("Fri Oct 28 05:59:07 2022")`
+      - `dq 'fromansic("Fri Oct 28 05:59:07 2022")'`
 
     - $t$: $time$ object representing universal time.
 
@@ -302,7 +308,7 @@ TBD
 
       - `echo '"Fri Oct 28 05:59:07 JST 2022"' | dq fromunixdate`
       - `echo 'Fri Oct 28 05:59:07 JST 2022' | dq -R fromunixdate`
-      - `dq fromunixdate("Fri Oct 28 05:59:07 JST 2022")`
+      - `dq 'fromunixdate("Fri Oct 28 05:59:07 JST 2022")'`
 
     - $t$: $time$ object representing the specified time.
 
@@ -340,7 +346,7 @@ TBD
 
       - `echo '"Fri Oct 28 05:59:07 +0900 2022"' | dq fromrubydate`
       - `echo 'Fri Oct 28 05:59:07 +0900 2022' | dq -R fromrubydate`
-      - `dq fromrubydate("Fri Oct 28 05:59:07 +0900 2022")`
+      - `dq 'fromrubydate("Fri Oct 28 05:59:07 +0900 2022")'`
 
     - $t$: $time$ object representing the specified time.
 
@@ -376,9 +382,9 @@ TBD
 
       $in$ can be provided from input stream or the first item of the arguments. i.e. all of the following are supported:
 
-      - `echo '"28 Oct 22 05:59:07 JST"' | dq fromrfc822`
-      - `echo '28 Oct 22 05:59:07 JST' | dq -R fromrfc822`
-      - `dq fromrfc822("28 Oct 22 05:59:07 JST")`
+      - `echo '"28 Oct 22 05:59 JST"' | dq fromrfc822`
+      - `echo '28 Oct 22 05:59 JST' | dq -R fromrfc822`
+      - `dq 'fromrfc822("28 Oct 22 05:59 JST")'`
 
     - $t$: $time$ object representing the specified time.
 
@@ -398,7 +404,45 @@ TBD
       e.g.)
       ```
       echo '1666903217' | TZ=Asia/Tokyo dq 'fromunix | torfc822'
-      #=> "28 Oct 22 05:40:17 JST"
+      #=> "28 Oct 22 05:40 JST"
+      ```
+
+  </details>
+
+  <details>
+  <summary><code>fromrfc822z</code> (<code>from_rfc822z</code>)</summary>
+
+    Generate $time$ object from a RFC822 with numeric zone string.
+
+    $in: string \rightarrow t:time$
+
+    - $in$: RFC822 with numeric zone string. e.g. "28 Oct 22 05:59:07 +0900"
+
+      $in$ can be provided from input stream or the first item of the arguments. i.e. all of the following are supported:
+
+      - `echo '"28 Oct 22 05:59 +0900"' | dq fromrfc822z`
+      - `echo '28 Oct 22 05:59 +0900' | dq -R fromrfc822z`
+      - `dq 'fromrfc822z("28 Oct 22 05:59 +0900")'`
+
+    - $t$: $time$ object representing the specified time.
+
+  </details>
+
+  <details>
+  <summary><code>torfc822z</code> (<code>to_rfc822z</code>)</summary>
+
+    Generate RFC822 with numeric zone string represents $time$ object.
+
+    $t: time \rightarrow out: string$
+
+    - $t$: $time$ object
+
+    - $out$: RFC822 with numeric zone string represents the time specified by the $time$ object.
+
+      e.g.)
+      ```
+      echo '1666903217' | TZ=Asia/Tokyo dq 'fromunix | torfc822z'
+      #=> "28 Oct 22 05:40 +0900"
       ```
 
   </details>

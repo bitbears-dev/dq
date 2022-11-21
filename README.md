@@ -192,7 +192,7 @@ TBD
     $in: integer \vert float \vert string \rightarrow t:time$
 
     - $in$: Unix time or known string format of time.
-      - $in$ can be provided from input stream or the first item of the argumetns. i.e. both of the following are supported:
+      - $in$ can be provided from input stream or the first item of the arguments. i.e. both of the following are supported:
         - `echo '1666533582' | dq guess`
         - `dq 'guess(1666533582)'`
 

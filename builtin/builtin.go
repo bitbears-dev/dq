@@ -23,6 +23,11 @@ var supportedKnownTimeFormats = []string{
 	time.ANSIC,
 	time.UnixDate,
 	time.RubyDate,
+	time.Kitchen,
+	time.Stamp,
+	time.StampMilli,
+	time.StampMicro,
+	time.StampNano,
 }
 
 func Guess(v interface{}, args []interface{}) interface{} {

@@ -747,11 +747,14 @@ TBD
     <details>
     <summary><code>fromymd</code> (<code>from_ymd</code>) </summary>
 
-    $y, m, d: integer \rightarrow out: time$
+    Generate $time$ object by specifying year, month and day.
+
+    $y, m, d: integer \rightarrow t: time$
 
     - $y$: year
     - $m$: month [1-12]
     - $d$: day [1-31]
+    - $t$: $time$ object representing the specified date
 
     e.g.)
     ```
@@ -764,7 +767,9 @@ TBD
     <details>
     <summary><code>fromymdhms</code> (<code>from_ymdhms</code>) </summary>
 
-    $y, mon, d, h, min, s: integer \rightarrow out: time$
+    Generate $time$ object by specifying year, month, day, hour, minute and second.
+
+    $y, mon, d, h, min, s: integer \rightarrow t: time$
 
     - $y$: year
     - $mon$: month [1-12]
@@ -772,12 +777,84 @@ TBD
     - $h$: hour [0-23]
     - $min$: minute [0-59]
     - $sec$: second [0-59]
+    - $t$: $time$ object representing the specified date / time
 
     e.g.)
     ```
     $ dq 'fromymdhms(2022;11;26;9;23;18) | .rfc3339'
     "2022-11-26T09:23:18+09:00"
     ```
+    </details>
+
+  - "Kitchen"
+    <details>
+    <summary><code>fromkitchen</code> (<code>from_kitchen</code>)</summary>
+
+    Generate $time$ object from "kitchen clock" style string.
+
+    $k: string \rightarrow t: time$
+
+    - $k$: kitchen style string e.g.) `"3:04PM"`
+    - $t$: $time$ object representing the specified time.
+
+    e.g.)
+    ```
+    $ dq 'fromkitchen("1:56PM") | .hour'
+    13
+    ```
+    </details>
+
+    <details>
+    <summary><code>tokitchen</code> (<code>to_kitchen</code>)</summary>
+
+    Generate "kitchen clock" style string representing the specified $time$ object
+
+    $t: time \rightarrow k: string$
+
+    - $t$: $time$ object
+    - $k$: kitchen style string e.g.) `"3:04PM"`
+
+    e.g.)
+    ```
+    $ dq tokitchen
+    "2:03PM"
+    ```
+    </details>
+
+  - "Stamp"
+    <details>
+    <summary><code>fromstamp</code> (<code>from_stamp</code>) </summary>
+
+    Generate $time$ object from a "handy timestamp" style string.
+
+    $s: string \rightarrow t: time$
+
+    - $s$: handy timestamp style string. e.g.) `"Nov 26 15:40:53"`
+    - $t$: $time$ object
+
+    e.g.)
+    ```
+    $ dq 'fromstamp("Nov 26 15:40:53") | .daysInMonth'
+    30
+    ```
+    </details>
+
+    <details>
+    <summary><code>tostamp</code> (<code>to_stamp</code>) </summary>
+
+    Generate a "handy timestamp" style string representing the specified $time$ object.
+
+    $t: time \rightarrow s: string$
+
+    - $t$: $time$ object
+    - $s$: handy timestamp style string. e.g.) `"Nov 26 15:40:53"`
+
+    e.g.)
+    ```
+    $ dq tostamp
+    "Nov 26 15:40:53"
+    ```
+
     </details>
 
 - Calculation

@@ -8,26 +8,29 @@ $ dq  # => shows current date / time in JSON format
   "am": false,
   "day": 23,
   "dayOfYear": 296,
+  "daysInMonth": 31,
   "hour": 22,
   "hour12": 10,
+  "leapYear": false,
   "microsecond": 479854,
   "millisecond": 479,
   "minute": 59,
   "month": 10,
   "nanosecond": 479854622,
+  "rfc3339": "2022-10-23T22:59:42+09:00",
   "second": 42,
   "timezone": {
     "offsetSeconds": 32400,
     "short": "JST"
   },
   "unix": 1666533582,
-  "unixString": "1666533582",
   "unixMicro": 1666533582479854,
   "unixMicroString": "1666533582479854",
   "unixMilli": 1666533582479,
   "unixMilliString": "1666533582479",
   "unixNano": 1666533582479854622,
   "unixNanoString": "1666533582479854622",
+  "unixString": "1666533582",
   "weekday": {
     "name": "Sunday"
   },
@@ -41,31 +44,36 @@ $ dq .year  # => shows current year
 ```
 
 ```
-$ dq 'fromunix(1666533582)'  # => shows info for the specified date / time. Note: single quotation marks `' ... '` around the filter expression are required to prevent parenthesis from being interpreted by the shell
+$ dq 'fromunix(1666533582)'  # => shows info for the specified date / time.
+                             # Note: single quotation marks `' ... '` around the filter expression
+                             # are required to prevent parenthesis from being interpreted by the shell
 {
   "am": false,
   "day": 23,
   "dayOfYear": 296,
+  "daysInMonth": 31,
   "hour": 22,
   "hour12": 10,
+  "leapYear": false,
   "microsecond": 0,
   "millisecond": 0,
   "minute": 59,
   "month": 10,
   "nanosecond": 0,
+  "rfc3339": "2022-10-23T22:59:42+09:00",
   "second": 42,
   "timezone": {
     "offsetSeconds": 32400,
     "short": "JST"
   },
   "unix": 1666533582,
-  "unixString": "1666533582",
   "unixMicro": 1666533582000000,
   "unixMicroString": "1666533582000000",
   "unixMilli": 1666533582000,
   "unixMilliString": "1666533582000",
   "unixNano": 1666533582000000000,
   "unixNanoString": "1666533582000000000",
+  "unixString": "1666533582",
   "weekday": {
     "name": "Sunday"
   },
@@ -75,7 +83,7 @@ $ dq 'fromunix(1666533582)'  # => shows info for the specified date / time. Note
 
 ```
 $ echo 1666533582 | dq fromunix  # => you can provide the input from another process via the pipe
-(same above)
+# => (the result is the same above)
 ```
 
 ```
@@ -84,26 +92,29 @@ $ dq 'fromrfc3339("2022-10-23T23:03:01+09:00")'
   "am": false,
   "day": 23,
   "dayOfYear": 296,
+  "daysInMonth": 31,
   "hour": 23,
   "hour12": 11,
+  "leapYear": false,
   "microsecond": 0,
   "millisecond": 0,
   "minute": 3,
   "month": 10,
   "nanosecond": 0,
+  "rfc3339": "2022-10-23T23:03:01+09:00",
   "second": 1,
   "timezone": {
     "offsetSeconds": 32400,
     "short": "JST"
   },
   "unix": 1666533781,
-  "unixString": "1666533781",
   "unixMicro": 1666533781000000,
   "unixMicroString": "1666533781000000",
   "unixMilli": 1666533781000,
   "unixMilliString": "1666533781000",
   "unixNano": 1666533781000000000,
   "unixNanoString": "1666533781000000000",
+  "unixString": "1666533781",
   "weekday": {
     "name": "Sunday"
   },
@@ -112,13 +123,13 @@ $ dq 'fromrfc3339("2022-10-23T23:03:01+09:00")'
 ```
 
 ```
-$ dq 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'
+$ dq 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0;0;1) | .weekday.name'
 # => shows the name of weekday of the next day
 "Monday"
 ```
 
 ```
-$ ./dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_day(1) | .weekday.name'
+$ dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0;0;1) | .weekday.name'
 # => raw output (double quotation marks will be removed when the result is only a string)
 Monday
 ```
@@ -140,6 +151,7 @@ TBD
   | `am`              | bool       | `true`: AM, `false`: PM                                                 |
   | `day`             | integer    | Day of the month                                                        |
   | `dayOfYear`       | integer    | Day of the year                                                         |
+  | `daysInMonth`     | integer    | Number of days in the month                                             |
   | `hour`            | integer    | Hour within the day, 24-hour format i.e. in range [0, 23]               |
   | `hour12`          | integer    | Hour within the day, 12-hour format i.e. in range [0, 12]               |
   | `leapYear`        | bool       | Whether the year is a leap year or not                                  |
@@ -184,9 +196,9 @@ TBD
 
 - Format conversion
 
-  - Let `dq` guess
+  - Let `dq` guess format of the input
     <details>
-    <summary><code>`guess`</code></summary>
+    <summary><code>guess</code> (<code>g</code>) </summary>
     Generate $time$ object from input.
 
     $in: integer \vert float \vert string \rightarrow t:time$
@@ -666,6 +678,7 @@ TBD
   - `strptime` / `strftime` / `mktime`
     <details>
     <summary><code>strptime</code></summary>
+
     __This function is derived from__ `jq`
 
     Interface to the C-library function `strptime()`.
@@ -690,6 +703,7 @@ TBD
 
     <details>
     <summary><code>strftime</code></summary>
+
     __This function is derived from__ `jq`
 
     Interface to the C-library function `strftime()`.
@@ -711,6 +725,7 @@ TBD
 
     <details>
     <summary><code>mktime</code></summary>
+
     __This function is derived from__ `jq`
 
     Interface to the C-library function `mktime()`.
@@ -724,7 +739,44 @@ TBD
     e.g.)
     ```
     $ echo '"2022-11-03T12:58:47Z"' | dq 'strptime("%Y-%m-%dT%H:%M:%SZ") | mktime'
-    # => 1667480327
+    1667480327
+    ```
+    </details>
+
+  - From Year / Month / Day
+    <details>
+    <summary><code>fromymd</code> (<code>from_ymd</code>) </summary>
+
+    $y, m, d: integer \rightarrow out: time$
+
+    - $y$: year
+    - $m$: month [1-12]
+    - $d$: day [1-31]
+
+    e.g.)
+    ```
+    $ dq 'fromymd(2022;11;26) | .rfc3339'
+    "2022-11-26T00:00:00+09:00"
+    ```
+    </details>
+
+  - From Year / Month / Day / Hour / Minute / Second
+    <details>
+    <summary><code>fromymdhms</code> (<code>from_ymdhms</code>) </summary>
+
+    $y, mon, d, h, min, s: integer \rightarrow out: time$
+
+    - $y$: year
+    - $mon$: month [1-12]
+    - $d$: day [1-31]
+    - $h$: hour [0-23]
+    - $min$: minute [0-59]
+    - $sec$: second [0-59]
+
+    e.g.)
+    ```
+    $ dq 'fromymdhms(2022;11;26;9;23;18) | .rfc3339'
+    "2022-11-26T09:23:18+09:00"
     ```
     </details>
 

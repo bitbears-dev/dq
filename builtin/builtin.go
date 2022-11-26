@@ -446,10 +446,19 @@ func EncapTime(t time.Time) map[string]interface{} {
 		"weekday": map[string]interface{}{
 			"name": t.Weekday().String(),
 		},
-		"dayOfYear": t.YearDay(),
-		"rfc3339":   t.Format(time.RFC3339),
-		"leapYear":  year%4 == 0 && (year%100 != 0 || year%400 == 0),
+		"dayOfYear":   t.YearDay(),
+		"daysInMonth": getDaysInMonth(t),
+		"rfc3339":     t.Format(time.RFC3339),
+		"leapYear":    year%4 == 0 && (year%100 != 0 || year%400 == 0),
 	}
+}
+
+func getDaysInMonth(t time.Time) int {
+	// https://brandur.org/fragments/go-days-in-month
+	// > The reason it works is that we generate a date one month on from the target one (m+1),
+	// > but set the day of month to 0. Days are 1-indexed, so this has the effect of rolling back
+	// > one day to the last day of the previous month (our target month of m)
+	return time.Date(t.Year(), t.Month()+1, 0, 0, 0, 0, 0, t.Location()).Day()
 }
 
 func DecapTime(v interface{}) (*time.Time, bool) {

@@ -182,6 +182,7 @@ TBD
   | --------------- | ------- | ---------------------------- |
   | `offsetSeconds` | integer | Offset in seconds            |
   | `short`         | string  | Abbreviated name of the zone |
+  | `dst`           | bool    | `true` if it is in DST       |
 </details>
 
 <details>

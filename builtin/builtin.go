@@ -447,6 +447,7 @@ func EncapTime(t time.Time) map[string]interface{} {
 		"timezone": map[string]interface{}{
 			"short":         zoneName,
 			"offsetSeconds": offset,
+			"dst":           t.IsDST(),
 		},
 		"weekday": map[string]interface{}{
 			"name": t.Weekday().String(),

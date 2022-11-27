@@ -857,6 +857,111 @@ TBD
 
     </details>
 
+    <details>
+    <summary><code>fromstampmilli</code> (<code>from_stampmilli</code>) </summary>
+
+    Generate $time$ object from a "handy timestamp" style string in milliseconds.
+
+    $s: string \rightarrow t: time$
+
+    - $s$: handy timestamp style string in milliseconds. e.g.) `"Nov 26 15:40:53.193"`
+    - $t$: $time$ object
+
+    e.g.)
+    ```
+    $ dq 'fromstampmilli("Nov 26 15:40:53.193") | .am'
+    false
+    ```
+    </details>
+
+    <details>
+    <summary><code>tostampmilli</code> (<code>to_stampmilli</code>) </summary>
+
+    Generate a "handy timestamp" style string representing the specified $time$ object.
+
+    $t: time \rightarrow s: string$
+
+    - $t$: $time$ object
+    - $s$: handy timestamp style string. e.g.) `"Nov 26 15:40:53.193"`
+
+    e.g.)
+    ```
+    $ dq tostampmilli
+    "Nov 26 15:40:53.193"
+    ```
+
+    </details>
+
+    <details>
+    <summary><code>fromstampmicro</code> (<code>from_stampmicro</code>) </summary>
+
+    Generate $time$ object from a "handy timestamp" style string in microseconds.
+
+    $s: string \rightarrow t: time$
+
+    - $s$: handy timestamp style string in microseconds. e.g.) `"Nov 26 15:40:53.193503"`
+    - $t$: $time$ object
+
+    e.g.)
+    ```
+    $ dq 'fromstampmicro("Nov 26 15:40:53.193503") | .microsecond'
+    193503
+    ```
+    </details>
+
+    <details>
+    <summary><code>tostampmicro</code> (<code>to_stampmicro</code>) </summary>
+
+    Generate a "handy timestamp" style string representing the specified $time$ object.
+
+    $t: time \rightarrow s: string$
+
+    - $t$: $time$ object
+    - $s$: handy timestamp style string. e.g.) `"Nov 26 15:40:53.193503"`
+
+    e.g.)
+    ```
+    $ dq tostampmicro
+    "Nov 26 15:40:53.193503"
+    ```
+
+    </details>
+
+    <details>
+    <summary><code>fromstampnano</code> (<code>from_stampnano</code>) </summary>
+
+    Generate $time$ object from a "handy timestamp" style string in nanoseconds.
+
+    $s: string \rightarrow t: time$
+
+    - $s$: handy timestamp style string in nanoseconds. e.g.) `"Nov 26 15:40:53.193503402"`
+    - $t$: $time$ object
+
+    e.g.)
+    ```
+    $ dq 'fromstampnano("Nov 26 15:40:53.193503402") | .nanosecond'
+    193503402
+    ```
+    </details>
+
+    <details>
+    <summary><code>tostampnano</code> (<code>to_stampnano</code>) </summary>
+
+    Generate a "handy timestamp" style string representing the specified $time$ object.
+
+    $t: time \rightarrow s: string$
+
+    - $t$: $time$ object
+    - $s$: handy timestamp style string. e.g.) `"Nov 26 15:40:53.193503402"`
+
+    e.g.)
+    ```
+    $ dq tostampnano
+    "Nov 26 15:40:53.193503402"
+    ```
+
+    </details>
+
 - Calculation
 
   <details>
@@ -879,5 +984,56 @@ TBD
   # => 2022-11-23T23:03:01+09:00
   $ dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(1; 0; 0) | .rfc3339'
   # => 2023-10-23T23:03:01+09:00
+  ```
+  </details>
+
+
+- Utilities
+
+  <details>
+  <summary><code>clock</code></summary>
+
+  $t: time \rightarrow out: array of integers$
+
+  - $t$: $time$ object
+    - $t$ must be specified via the input stream
+  - $out$: an array of [hour, minute, second]
+
+  e.g.)
+  ```
+  $ dq -c clock
+  [14,52,6]
+  ```
+  </details>
+
+  <details>
+  <summary><code>date</code></summary>
+
+  $t: time \rightarrow out: array of integers$
+
+  - $t$: $time$ object
+    - $t$ must be specified via the input stream
+  - $out$: an array of [year, month, day]
+
+  e.g.)
+  ```
+  $ dq -c date
+  [2022,11,27]
+  ```
+  </details>
+
+  <details>
+  <summary><code>utc</code></summary>
+
+  $t: time \rightarrow u: time$
+
+  - $t$: $time$ object
+    - $t$ must be specified via the input stream
+  - $u$: time $t$ in UTC
+
+  e.g.)
+  ```
+  $ dq 'utc | .timezone.short'
+  "UTC"
   ```
   </details>

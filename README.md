@@ -193,6 +193,19 @@ TBD
   | `name`          | string  | English name of the day |
 </details>
 
+<details>
+<summary><code>duration</code><summary>
+
+  | Field name      | Type    | Description                                    |
+  | --------------- | ------- | ---------------------------------------------- |
+  | `hours`         | float   | duration as a floating point number of hours   |
+  | `minutes`       | float   | duration as a floating point number of minutes |
+  | `seconds`       | float   | duration as a floating point number of seconds |
+  | `milliseconds`  | integer | duration as an integer millisecond count       |
+  | `microseconds`  | integer | duration as an integer microsecond count       |
+  | `nanoseconds`   | integer | duration as an integer nanosecond count        |
+</details>
+
 ### Functions
 
 - Format conversion
@@ -966,6 +979,25 @@ TBD
 - Calculation
 
   <details>
+  <summary><code>add</code></summary>
+
+  Add the specified duration $d$ to the time $t$.
+
+  $t: time, d: duration \rightarrow out: time$
+
+  - $t$: $time$ object
+    - $t$ must be specified via the input stream
+  - $d$: $duration$ object
+  - $out$: $t+d$
+
+  e.g.)
+  ```
+  $ dq 'fromrfc3339("2022-11-27T16:12:34Z") | add(3 | hours) | .rfc3339'
+  "2022-11-27T19:12:34Z"
+  ```
+  </details>
+
+  <details>
   <summary><code>add_date</code></summary>
 
   $t: time, y: integer, m: integer, d: integer \rightarrow out: time$
@@ -1037,4 +1069,142 @@ TBD
   $ dq 'utc | .timezone.short'
   "UTC"
   ```
+  </details>
+
+  <details>
+  <summary><code>hours</code></summary>
+
+  $h: integer \rightarrow d: duration$
+
+  - $h$: an integer value representing the number of hours
+  - $d$: $duration$ object representing the specified hours
+
+  e.g.)
+  ```
+  $ dq '3 | hours'
+  {
+    "hours": 3,
+    "microseconds": 10800000000,
+    "milliseconds": 10800000,
+    "minutes": 180,
+    "nanoseconds": 10800000000000,
+    "seconds": 10800
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>minutes</code></summary>
+
+  $m: integer \rightarrow d: duration$
+
+  - $m$: an integer value representing the number of minutes
+  - $d$: $duration$ object representing the specified minutes
+
+  e.g.)
+  ```
+  $ dq '4 | minutes'
+  {
+    "hours": 0.06666666666666667,
+    "microseconds": 240000000,
+    "milliseconds": 240000,
+    "minutes": 4,
+    "nanoseconds": 240000000000,
+    "seconds": 240
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>seconds</code></summary>
+
+  $s: integer \rightarrow d: duration$
+
+  - $s$: an integer value representing the number of seconds
+  - $d$: $duration$ object representing the specified seconds
+
+  e.g.)
+  ```
+  $ dq '5 | seconds'
+  {
+    "hours": 0.001388888888888889,
+    "microseconds": 5000000,
+    "milliseconds": 5000,
+    "minutes": 0.08333333333333333,
+    "nanoseconds": 5000000000,
+    "seconds": 5
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>milliseconds</code></summary>
+
+  $ms: integer \rightarrow d: duration$
+
+  - $ms$: an integer value representing the number of milliseconds
+  - $d$: $duration$ object representing the specified milliseconds
+
+  e.g.)
+  ```
+  $ dq '6 | milliseconds'
+  {
+    "hours": 0.0000016666666666666667,
+    "microseconds": 6000,
+    "milliseconds": 6,
+    "minutes": 0.0001,
+    "nanoseconds": 6000000,
+    "seconds": 0.006
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>microseconds</code></summary>
+
+  $ms: integer \rightarrow d: duration$
+
+  - $ms$: an integer value representing the number of microseconds
+  - $d$: $duration$ object representing the specified microseconds
+
+  e.g.)
+  ```
+  $ dq '7 | microseconds'
+  {
+    "hours": 1.9444444444444446e-9,
+    "microseconds": 7,
+    "milliseconds": 0,
+    "minutes": 1.1666666666666667e-7,
+    "nanoseconds": 7000,
+    "seconds": 0.000007
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>nanoseconds</code></summary>
+
+  $ns: integer \rightarrow d: duration$
+
+  - $ns$: an integer value representing the number of nanoseconds
+  - $d$: $duration$ object representing the specified nanoseconds
+
+  e.g.)
+  ```
+  $ dq '8 | nanoseconds'
+  {
+    "hours": 2.2222222222222224e-12,
+    "microseconds": 0,
+    "milliseconds": 0,
+    "minutes": 1.3333333333333334e-10,
+    "nanoseconds": 8,
+    "seconds": 8e-9
+  }
+  ```
+
   </details>

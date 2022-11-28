@@ -384,6 +384,23 @@ func AddDate(v interface{}, args []interface{}) interface{} {
 	return EncapTime(t.AddDate(years, months, days))
 }
 
+func Add(v interface{}, args []interface{}) interface{} {
+	t, ok := DecapTime(v)
+	if !ok {
+		return errors.Errorf("expected time as input, but found unexpected type: %T", v)
+	}
+	if len(args) < 1 {
+		return errors.New("insufficient arguments")
+	}
+
+	d, ok := DecapDuration(args[0])
+	if !ok {
+		return errors.Errorf("expected duration as the first argument, but found unexpected type: %T", args[0])
+	}
+
+	return EncapTime(t.Add(*d))
+}
+
 func interpretAsInt(arg interface{}) (int, error) {
 	switch d := arg.(type) {
 	case int:
@@ -418,6 +435,57 @@ func UTC(v interface{}, _ []interface{}) interface{} {
 	}
 
 	return errors.New("unexpected type")
+}
+
+func Hours(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	return convertToDuration(v, time.Hour)
+}
+
+func Minutes(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	return convertToDuration(v, time.Minute)
+}
+
+func Seconds(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	return convertToDuration(v, time.Second)
+}
+
+func Milliseconds(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	return convertToDuration(v, time.Millisecond)
+}
+
+func Microseconds(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	return convertToDuration(v, time.Microsecond)
+}
+
+func Nanoseconds(v interface{}, args []interface{}) interface{} {
+	if len(args) == 1 {
+		v = args[0]
+	}
+	return convertToDuration(v, time.Nanosecond)
+}
+
+func convertToDuration(v interface{}, unit time.Duration) interface{} {
+	x, ok := v.(int)
+	if !ok {
+		return errors.Errorf("expected integer, but found unexpected type: %T", v)
+	}
+
+	return EncapDuration(time.Duration(x) * unit)
 }
 
 func EncapTime(t time.Time) map[string]interface{} {
@@ -484,4 +552,35 @@ func DecapTime(v interface{}) (*time.Time, bool) {
 	}
 
 	return &t, true
+}
+
+func EncapDuration(d time.Duration) map[string]interface{} {
+	return map[string]interface{}{
+		"__dq__source": d,
+		"hours":        d.Hours(),
+		"minutes":      d.Minutes(),
+		"seconds":      d.Seconds(),
+		"milliseconds": d.Milliseconds(),
+		"microseconds": d.Microseconds(),
+		"nanoseconds":  d.Nanoseconds(),
+	}
+}
+
+func DecapDuration(v interface{}) (*time.Duration, bool) {
+	m, ok := v.(map[string]interface{})
+	if !ok {
+		return nil, false
+	}
+
+	source, ok := m["__dq__source"]
+	if !ok {
+		return nil, false
+	}
+
+	d, ok := source.(time.Duration)
+	if !ok {
+		return nil, false
+	}
+
+	return &d, true
 }

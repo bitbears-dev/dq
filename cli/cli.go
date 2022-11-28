@@ -136,9 +136,16 @@ func (c *CLI) run(args []string) error {
 		gojq.WithFunction("tostampnano", 0, 1, builtin.ToKnownTimeFormat(time.StampNano)),
 		gojq.WithFunction("to_stampnano", 0, 1, builtin.ToKnownTimeFormat(time.StampNano)),
 		gojq.WithFunction("add_date", 3, 3, builtin.AddDate),
+		gojq.WithFunction("add", 1, 1, builtin.Add),
 		gojq.WithFunction("clock", 0, 0, builtin.Clock),
 		gojq.WithFunction("date", 0, 0, builtin.Date),
 		gojq.WithFunction("utc", 0, 0, builtin.UTC),
+		gojq.WithFunction("hours", 0, 1, builtin.Hours),
+		gojq.WithFunction("minutes", 0, 1, builtin.Minutes),
+		gojq.WithFunction("seconds", 0, 1, builtin.Seconds),
+		gojq.WithFunction("milliseconds", 0, 1, builtin.Milliseconds),
+		gojq.WithFunction("microseconds", 0, 1, builtin.Microseconds),
+		gojq.WithFunction("nanoseconds", 0, 1, builtin.Nanoseconds),
 	)
 	if err != nil {
 		return err

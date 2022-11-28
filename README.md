@@ -194,7 +194,7 @@ TBD
 </details>
 
 <details>
-<summary><code>duration</code><summary>
+<summary><code>duration</code></summary>
 
   | Field name      | Type    | Description                                    |
   | --------------- | ------- | ---------------------------------------------- |

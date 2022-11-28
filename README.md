@@ -134,6 +134,12 @@ $ dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0;0;1) | .weekday.n
 Monday
 ```
 
+```
+$ dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add(-3 | hours) | .rfc3339'
+# => shows RFC3339 style date / time 3 hours before the specified date / time
+2022-10-23T20:03:01+09:00
+```
+
 ## Install
 
 TBD

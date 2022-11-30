@@ -1214,3 +1214,14 @@ TBD
   ```
 
   </details>
+
+
+# Development
+
+## How to release
+
+```
+make build-for-release ver=x.y.z
+make package ver=x.y.z
+make release ver=x.y.z
+```

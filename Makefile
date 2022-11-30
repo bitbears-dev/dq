@@ -3,12 +3,15 @@ subdirs = builtin cli cmd/dq
 .PHONY: all
 all: lint test $(subdirs)
 
+.PHONY: build-for-release
+build-for-release: lint test $(subdirs) e2e-test
+
 .PHONY: lint
 lint:
 	staticcheck ./...
 
-.PHONY: clean test
-clean test: $(subdirs)
+.PHONY: clean test package release
+clean test package release: $(subdirs)
 
 $(subdirs): force
 	$(MAKE) -C $@ $(MAKECMDGOALS)

@@ -13,8 +13,8 @@ if [ ! -w "$bindir" ]; then
   exit 1
 fi
 
-if \dq > /dev/null 2>&1; then
-  if [[ "$( \command -v dq )" != "$bindir/dq" ]] || [ -L "$bindir/dq" ]; then
+if \dq --version > /dev/null 2>&1; then
+  if [ "$( \command -v dq )" != "$bindir/dq" ] || [ -L "$bindir/dq" ]; then
     echo 'dq is already installed by using another method.' 2>&1
     echo 'Please use the same method if you want to update dq.' 2>&1
     exit 1

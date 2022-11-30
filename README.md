@@ -142,7 +142,39 @@ $ dq -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add(-3 | hours) | .rfc3339'
 
 ## Install
 
-TBD
+By running one of the following commands, the latest version of `dq` command will be installed.
+
+If you have a permission to write a file into `/usr/local/bin` directory (e.g. you are `root` user), please run the command below:
+
+```shell
+curl -fsSL https://raw.githubusercontent.com/bitbears-dev/dq/master/install.sh | bash
+```
+
+If you do not have a permission to write a file into `/usr/local/bin` directory, please run either of the following commands.
+
+If you are in sudoers and want to install `dq` command to `/usr/local/bin`:
+
+```shell
+curl -fsSL https://raw.githubusercontent.com/bitbears-dev/dq/master/install.sh | sudo bash
+```
+
+or
+
+If you are not in sudoers or want to install `dq` command to other directory e.g. `$HOME/bin`:
+
+```shell
+mkdir -p "$HOME/bin"
+curl -fsSL https://raw.githubusercontent.com/bitbears-dev/dq/master/install.sh | BINDIR="$HOME/bin" bash
+```
+
+You can change `"$HOME/bin"` in the command above to wherever you want.
+
+If you want to upgrade the `dq` command, you can just run the same command you used to install `dq` again.
+
+If you want to uninstall the `dq` command, you can just remove `dq` executable file you have installed.
+
+If the commands above did not work well, or if you want to install older version of `dq` command, you can download a package file that match the environment of the target from [Releases page](https://github.com/bitbears-dev/dq/releases), unpack it, and place the executable file in the directory where included in `PATH`.
+
 
 
 ## Reference

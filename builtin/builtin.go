@@ -437,6 +437,15 @@ func UTC(v interface{}, _ []interface{}) interface{} {
 	return errors.New("unexpected type")
 }
 
+func Local(v interface{}, _ []interface{}) interface{} {
+	t, ok := DecapTime(v)
+	if ok {
+		return EncapTime(t.Local())
+	}
+
+	return errors.New("unexpected type")
+}
+
 func Hours(v interface{}, args []interface{}) interface{} {
 	if len(args) == 1 {
 		v = args[0]

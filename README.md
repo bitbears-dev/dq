@@ -1110,6 +1110,22 @@ If the commands above did not work well, or if you want to install older version
   </details>
 
   <details>
+  <summary><code>local</code></summary>
+
+  $t: time \rightarrow u: time$
+
+  - $t$: $time$ object
+    - $t$ must be specified via the input stream
+  - $u$: time $t$ in local timezone
+
+  e.g.)
+  ```
+  $ dq 'local | .timezone.short'
+  "JST"
+  ```
+  </details>
+
+  <details>
   <summary><code>hours</code></summary>
 
   $h: integer \rightarrow d: duration$

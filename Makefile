@@ -8,7 +8,7 @@ build-for-release: lint test $(subdirs) e2e-test
 
 .PHONY: lint
 lint:
-	docker run -it --rm devdrops/staticcheck:latest staticcheck
+	docker run -t --rm devdrops/staticcheck:latest staticcheck
 
 .PHONY: clean test package release
 clean test package release: $(subdirs)

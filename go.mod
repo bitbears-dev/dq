@@ -1,6 +1,6 @@
 module github.com/bitbears-dev/dq
 
-go 1.19
+go 1.23.0
 
 require (
 	github.com/itchyny/gojq v0.12.9 // indirect

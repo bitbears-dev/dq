@@ -424,18 +424,18 @@ dq_supports_fromrfc3339nano_filter() {
   assert_json_has_field "$result" "unix"
   assert_json_field_has_value "$result" "unix" "1666533781"
   assert_json_has_field "$result" "unixNano"
-  assert_json_field_has_value "$result" "unixNano" "1666533781123456800"  # somehow it's rounded
+  assert_json_field_has_value "$result" "unixNano" "1666533781123456789"
   print_ok
 }
 
 dq_fromrfc3339nano_filter_supports_stdin() {
   progress "dq fromrfc3339nano() filter supports stdin"
-  result="$( echo '2022-10-23T23:03:01.123456788+09:00' | $bin -R fromrfc3339nano )"
+  result="$( echo '2022-10-23T23:03:01.123456789+09:00' | $bin -R fromrfc3339nano )"
   assert_json "$result"
   assert_json_has_field "$result" "unix"
   assert_json_field_has_value "$result" "unix" "1666533781"
   assert_json_has_field "$result" "unixNano"
-  assert_json_field_has_value "$result" "unixNano" "1666533781123456800"  # somehow it's rounded
+  assert_json_field_has_value "$result" "unixNano" "1666533781123456789"
   print_ok
 }
 
@@ -515,6 +515,97 @@ dq_supports_raw_output() {
   progress "dq supports raw output"
   result="$( $bin -r 'fromrfc3339("2022-10-23T23:03:01+09:00") | add_date(0; 0; 1) | .weekday.name' )"
   assert_eq "$result" 'Monday'
+  print_ok
+}
+
+dq_supports_today() {
+  progress "dq supports today()"
+  result="$( $bin 'today' )"
+  assert_json_field_has_value "$result" "year" "$( date +%Y )"
+  assert_json_field_has_value "$result" "month" "$( date +%-m )"
+  assert_json_field_has_value "$result" "day" "$( date +%-d )"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_field_has_value "$result" "second" "0"
+  print_ok
+}
+
+dq_supports_todayutc() {
+  progress "dq supports todayutc()"
+  result="$( $bin 'todayutc' )"
+  assert_json_field_has_value "$result" "year" "$( TZ=UTC date +%Y )"
+  assert_json_field_has_value "$result" "month" "$( TZ=UTC date +%-m )"
+  assert_json_field_has_value "$result" "day" "$( TZ=UTC date +%-d )"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_field_has_value "$result" "second" "0"
+  assert_json_field_has_value "$result" "timezone.short" '"UTC"'
+  print_ok
+}
+
+dq_supports_yesterday() {
+  progress "dq supports yesterday()"
+  expected_ymd="$( $bin 'today | add_date(0;0;-1)' )"
+  expected_year="$( echo "$expected_ymd" | jq -r '.year' )"
+  expected_month="$( echo "$expected_ymd" | jq -r '.month' )"
+  expected_day="$( echo "$expected_ymd" | jq -r '.day' )"
+  result="$( $bin 'yesterday' )"
+  assert_json_field_has_value "$result" "year" "$expected_year"
+  assert_json_field_has_value "$result" "month" "$expected_month"
+  assert_json_field_has_value "$result" "day" "$expected_day"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_field_has_value "$result" "second" "0"
+  print_ok
+}
+
+dq_supports_yesterdayutc() {
+  progress "dq supports yesterdayutc()"
+  expected_ymd="$( $bin 'todayutc | add_date(0;0;-1)' )"
+  expected_year="$( echo "$expected_ymd" | jq -r '.year' )"
+  expected_month="$( echo "$expected_ymd" | jq -r '.month' )"
+  expected_day="$( echo "$expected_ymd" | jq -r '.day' )"
+  result="$( $bin 'yesterdayutc' )"
+  assert_json_field_has_value "$result" "year" "$expected_year"
+  assert_json_field_has_value "$result" "month" "$expected_month"
+  assert_json_field_has_value "$result" "day" "$expected_day"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_field_has_value "$result" "second" "0"
+  assert_json_field_has_value "$result" "timezone.short" '"UTC"'
+  print_ok
+}
+
+dq_supports_tomorrow() {
+  progress "dq supports tomorrow()"
+  expected_ymd="$( $bin 'today | add_date(0;0;1)' )"
+  expected_year="$( echo "$expected_ymd" | jq -r '.year' )"
+  expected_month="$( echo "$expected_ymd" | jq -r '.month' )"
+  expected_day="$( echo "$expected_ymd" | jq -r '.day' )"
+  result="$( $bin 'tomorrow' )"
+  assert_json_field_has_value "$result" "year" "$expected_year"
+  assert_json_field_has_value "$result" "month" "$expected_month"
+  assert_json_field_has_value "$result" "day" "$expected_day"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_field_has_value "$result" "second" "0"
+  print_ok
+}
+
+dq_supports_tomorrowutc() {
+  progress "dq supports tomorrowutc()"
+  expected_ymd="$( $bin 'todayutc | add_date(0;0;1)' )"
+  expected_year="$( echo "$expected_ymd" | jq -r '.year' )"
+  expected_month="$( echo "$expected_ymd" | jq -r '.month' )"
+  expected_day="$( echo "$expected_ymd" | jq -r '.day' )"
+  result="$( $bin 'tomorrowutc' )"
+  assert_json_field_has_value "$result" "year" "$expected_year"
+  assert_json_field_has_value "$result" "month" "$expected_month"
+  assert_json_field_has_value "$result" "day" "$expected_day"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_field_has_value "$result" "second" "0"
+  assert_json_field_has_value "$result" "timezone.short" '"UTC"'
   print_ok
 }
 
@@ -619,5 +710,15 @@ dq_can_use_strftime
 # add_date()
 dq_supports_add_date_filter
 dq_supports_raw_output
+
+# today() / yesterday() / tomorrow()
+dq_supports_today
+dq_supports_yesterday
+dq_supports_tomorrow
+
+# todayutc() / yesterdayutc() / tomorrowutc()
+dq_supports_todayutc
+dq_supports_yesterdayutc
+dq_supports_tomorrowutc
 
 test_result=0

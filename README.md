@@ -1263,6 +1263,289 @@ If the commands above did not work well, or if you want to install older version
 
   </details>
 
+  <details>
+  <summary><code>today</code></summary>
+
+  $\epsilon \rightarrow t: time$
+
+  - $t$: $time$ object representing the beginning of today (i.e. 00:00:00) in local time
+
+  e.g.)
+  ```
+  $ dq 'today'
+  {
+    "am": true,
+    "day": 30,
+    "dayOfYear": 243,
+    "daysInMonth": 31,
+    "hour": 0,
+    "hour12": 0,
+    "leapYear": true,
+    "microsecond": 0,
+    "millisecond": 0,
+    "minute": 0,
+    "month": 8,
+    "nanosecond": 0,
+    "rfc3339": "2024-08-30T00:00:00+09:00",
+    "second": 0,
+    "timezone": {
+      "dst": false,
+      "offsetSeconds": 32400,
+      "short": "JST"
+    },
+    "unix": 1724943600,
+    "unixMicro": 1724943600000000,
+    "unixMicroString": "1724943600000000",
+    "unixMilli": 1724943600000,
+    "unixMilliString": "1724943600000",
+    "unixNano": 1724943600000000000,
+    "unixNanoString": "1724943600000000000",
+    "unixString": "1724943600",
+    "weekday": {
+      "name": "Friday"
+    },
+    "year": 2024
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>todayutc (today_utc)</code></summary>
+
+  $\epsilon \rightarrow t: time$
+
+  - $t$: $time$ object representing the beginning of today (i.e. 00:00:00) in UTC
+
+  e.g.)
+  ```
+  $ dq 'todayutc'
+  {
+    "am": true,
+    "day": 30,
+    "dayOfYear": 243,
+    "daysInMonth": 31,
+    "hour": 0,
+    "hour12": 0,
+    "leapYear": true,
+    "microsecond": 0,
+    "millisecond": 0,
+    "minute": 0,
+    "month": 8,
+    "nanosecond": 0,
+    "rfc3339": "2024-08-30T00:00:00Z",
+    "second": 0,
+    "timezone": {
+      "dst": false,
+      "offsetSeconds": 0,
+      "short": "UTC"
+    },
+    "unix": 1724976000,
+    "unixMicro": 1724976000000000,
+    "unixMicroString": "1724976000000000",
+    "unixMilli": 1724976000000,
+    "unixMilliString": "1724976000000",
+    "unixNano": 1724976000000000000,
+    "unixNanoString": "1724976000000000000",
+    "unixString": "1724976000",
+    "weekday": {
+      "name": "Friday"
+    },
+    "year": 2024
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>yesterday</code></summary>
+
+  $\epsilon \rightarrow t: time$
+
+  - $t$: $time$ object representing the beginning of yesterday (i.e. 00:00:00) in local time
+
+  e.g.)
+  ```
+  $ dq 'yesterday'
+  {
+    "am": true,
+    "day": 29,
+    "dayOfYear": 242,
+    "daysInMonth": 31,
+    "hour": 0,
+    "hour12": 0,
+    "leapYear": true,
+    "microsecond": 0,
+    "millisecond": 0,
+    "minute": 0,
+    "month": 8,
+    "nanosecond": 0,
+    "rfc3339": "2024-08-29T00:00:00+09:00",
+    "second": 0,
+    "timezone": {
+      "dst": false,
+      "offsetSeconds": 32400,
+      "short": "JST"
+    },
+    "unix": 1724857200,
+    "unixMicro": 1724857200000000,
+    "unixMicroString": "1724857200000000",
+    "unixMilli": 1724857200000,
+    "unixMilliString": "1724857200000",
+    "unixNano": 1724857200000000000,
+    "unixNanoString": "1724857200000000000",
+    "unixString": "1724857200",
+    "weekday": {
+      "name": "Thursday"
+    },
+    "year": 2024
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>yesterdayutc (yesterday_utc)</code></summary>
+
+  $\epsilon \rightarrow t: time$
+
+  - $t$: $time$ object representing the beginning of yesterday (i.e. 00:00:00) in UTC
+
+  e.g.)
+  ```
+  $ dq 'yesterdayutc'
+  {
+    "am": true,
+    "day": 29,
+    "dayOfYear": 242,
+    "daysInMonth": 31,
+    "hour": 0,
+    "hour12": 0,
+    "leapYear": true,
+    "microsecond": 0,
+    "millisecond": 0,
+    "minute": 0,
+    "month": 8,
+    "nanosecond": 0,
+    "rfc3339": "2024-08-29T00:00:00Z",
+    "second": 0,
+    "timezone": {
+      "dst": false,
+      "offsetSeconds": 0,
+      "short": "UTC"
+    },
+    "unix": 1724889600,
+    "unixMicro": 1724889600000000,
+    "unixMicroString": "1724889600000000",
+    "unixMilli": 1724889600000,
+    "unixMilliString": "1724889600000",
+    "unixNano": 1724889600000000000,
+    "unixNanoString": "1724889600000000000",
+    "unixString": "1724889600",
+    "weekday": {
+      "name": "Thursday"
+    },
+    "year": 2024
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>tomorrow</code></summary>
+
+  $\epsilon \rightarrow t: time$
+
+  - $t$: $time$ object representing the beginning of tomorrow (i.e. 00:00:00) in local time
+
+  e.g.)
+  ```
+  $ dq 'tomorrow'
+  {
+    "am": true,
+    "day": 31,
+    "dayOfYear": 244,
+    "daysInMonth": 31,
+    "hour": 0,
+    "hour12": 0,
+    "leapYear": true,
+    "microsecond": 0,
+    "millisecond": 0,
+    "minute": 0,
+    "month": 8,
+    "nanosecond": 0,
+    "rfc3339": "2024-08-31T00:00:00+09:00",
+    "second": 0,
+    "timezone": {
+      "dst": false,
+      "offsetSeconds": 32400,
+      "short": "JST"
+    },
+    "unix": 1725030000,
+    "unixMicro": 1725030000000000,
+    "unixMicroString": "1725030000000000",
+    "unixMilli": 1725030000000,
+    "unixMilliString": "1725030000000",
+    "unixNano": 1725030000000000000,
+    "unixNanoString": "1725030000000000000",
+    "unixString": "1725030000",
+    "weekday": {
+      "name": "Saturday"
+    },
+    "year": 2024
+  }
+  ```
+
+  </details>
+
+  <details>
+  <summary><code>tomorrowutc (tomorrow_utc)</code></summary>
+
+  $\epsilon \rightarrow t: time$
+
+  - $t$: $time$ object representing the beginning of tomorrow (i.e. 00:00:00) in UTC
+
+  e.g.)
+  ```
+  $ dq 'tomorrowutc'
+   {
+    "am": true,
+    "day": 31,
+    "dayOfYear": 244,
+    "daysInMonth": 31,
+    "hour": 0,
+    "hour12": 0,
+    "leapYear": true,
+    "microsecond": 0,
+    "millisecond": 0,
+    "minute": 0,
+    "month": 8,
+    "nanosecond": 0,
+    "rfc3339": "2024-08-31T00:00:00Z",
+    "second": 0,
+    "timezone": {
+      "dst": false,
+      "offsetSeconds": 0,
+      "short": "UTC"
+    },
+    "unix": 1725062400,
+    "unixMicro": 1725062400000000,
+    "unixMicroString": "1725062400000000",
+    "unixMilli": 1725062400000,
+    "unixMilliString": "1725062400000",
+    "unixNano": 1725062400000000000,
+    "unixNanoString": "1725062400000000000",
+    "unixString": "1725062400",
+    "weekday": {
+      "name": "Saturday"
+    },
+    "year": 2024
+  }
+ ```
+
+  </details>
+
+
 
 # Development
 

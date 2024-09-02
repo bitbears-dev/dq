@@ -488,6 +488,36 @@ func Nanoseconds(v interface{}, args []interface{}) interface{} {
 	return convertToDuration(v, time.Nanosecond)
 }
 
+func Today(_ interface{}, _ []interface{}) interface{} {
+	t := time.Now()
+	return EncapTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local))
+}
+
+func TodayUTC(_ interface{}, _ []interface{}) interface{} {
+	t := time.Now().UTC()
+	return EncapTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC))
+}
+
+func Yesterday(_ interface{}, _ []interface{}) interface{} {
+	t := time.Now().AddDate(0, 0, -1)
+	return EncapTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local))
+}
+
+func YesterdayUTC(_ interface{}, _ []interface{}) interface{} {
+	t := time.Now().UTC().AddDate(0, 0, -1)
+	return EncapTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC))
+}
+
+func Tomorrow(_ interface{}, _ []interface{}) interface{} {
+	t := time.Now().AddDate(0, 0, 1)
+	return EncapTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local))
+}
+
+func TomorrowUTC(_ interface{}, _ []interface{}) interface{} {
+	t := time.Now().UTC().AddDate(0, 0, 1)
+	return EncapTime(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC))
+}
+
 func convertToDuration(v interface{}, unit time.Duration) interface{} {
 	x, ok := v.(int)
 	if !ok {

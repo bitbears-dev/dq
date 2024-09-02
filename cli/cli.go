@@ -147,6 +147,15 @@ func (c *CLI) run(args []string) error {
 		gojq.WithFunction("milliseconds", 0, 1, builtin.Milliseconds),
 		gojq.WithFunction("microseconds", 0, 1, builtin.Microseconds),
 		gojq.WithFunction("nanoseconds", 0, 1, builtin.Nanoseconds),
+		gojq.WithFunction("today", 0, 0, builtin.Today),
+		gojq.WithFunction("todayutc", 0, 0, builtin.TodayUTC),
+		gojq.WithFunction("today_utc", 0, 0, builtin.TodayUTC),
+		gojq.WithFunction("yesterday", 0, 0, builtin.Yesterday),
+		gojq.WithFunction("yesterdayutc", 0, 0, builtin.YesterdayUTC),
+		gojq.WithFunction("yesterday_utc", 0, 0, builtin.YesterdayUTC),
+		gojq.WithFunction("tomorrow", 0, 0, builtin.Tomorrow),
+		gojq.WithFunction("tomorrowutc", 0, 0, builtin.TomorrowUTC),
+		gojq.WithFunction("tomorrow_utc", 0, 0, builtin.TomorrowUTC),
 	)
 	if err != nil {
 		return err

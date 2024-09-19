@@ -401,6 +401,23 @@ func Add(v interface{}, args []interface{}) interface{} {
 	return EncapTime(t.Add(*d))
 }
 
+func Sub(v any, args []any) any {
+	t, ok := DecapTime(v)
+	if !ok {
+		return errors.Errorf("expected time as input, but found unexpected type: %T", v)
+	}
+	if len(args) < 1 {
+		return errors.Errorf("insufficient arguments")
+	}
+
+	d, ok := DecapTime(args[0])
+	if !ok {
+		return errors.Errorf("expected time as the first argument, but found unexpected type: %T", args[0])
+	}
+
+	return EncapDuration(t.Sub(*d))
+}
+
 func interpretAsInt(arg interface{}) (int, error) {
 	switch d := arg.(type) {
 	case int:
@@ -444,6 +461,19 @@ func Local(v interface{}, _ []interface{}) interface{} {
 	}
 
 	return errors.New("unexpected type")
+}
+
+func InDays(v any, args []any) any {
+	if len(args) == 1 {
+		v = args[0]
+	}
+
+	d, ok := DecapDuration(v)
+	if !ok {
+		return errors.Errorf("expected duration, but found unexpected type: %T", v)
+	}
+
+	return d.Hours() / 24
 }
 
 func Hours(v interface{}, args []interface{}) interface{} {

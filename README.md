@@ -1036,6 +1036,25 @@ If the commands above did not work well, or if you want to install older version
   </details>
 
   <details>
+  <summary><code>sub</code></summary>
+
+  Returns the duration $t$ - $u$.
+
+  $t: time, u: time \rightarrow out: duration$
+
+  - $t$, $u$: $time$ object
+    - $t$ must be specified via the input stream
+    - $u$ must be specified as an argument
+  - $out$: $t-u$
+
+  e.g.)
+  ```
+  $ dq 'from_ymd(2024;9;19) | sub(from_ymd(2024;8;19)) | in_days'
+  31
+  ```
+  </details>
+
+  <details>
   <summary><code>add_date</code></summary>
 
   $t: time, y: integer, m: integer, d: integer \rightarrow out: time$
@@ -1123,6 +1142,24 @@ If the commands above did not work well, or if you want to install older version
   $ dq 'local | .timezone.short'
   "JST"
   ```
+  </details>
+
+  <details>
+  <summary><code>indays (in_days)</code></summary>
+
+  Returns the number of days the given duration object represents.
+
+  $d: duration \rightarrow n: integer$
+
+  - $d$: $duration$ object
+  - $n$: an integer value representing the number of days
+
+  e.g.)
+  ```
+  $ dq 'today | sub(yesterday) | in_days'
+  1
+  ```
+
   </details>
 
   <details>

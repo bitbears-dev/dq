@@ -1,19 +1,22 @@
 ver ?= 0.0.0
 bin = dq
 sources = $(wildcard *.go) $(wildcard ../../cli/*.go) $(wildcard ../../builtin/*.go)
+go_build_flags = \
+	-ldflags="-s -w -X 'main.version=$(ver)'" \
+	-trimpath
 
 .PHONY: all
 all: test $(bin)
 
 .PHONY: build-for-release
 build-for-release: test $(bin) # the dependency $(bin) is required to build the binary to run on the local env for e2e-test
-	GOOS=linux   GOARCH=amd64   go build -o dist/$(ver)/linux-amd64/dq
-	GOOS=linux   GOARCH=arm64   go build -o dist/$(ver)/linux-arm64/dq
-	GOOS=linux   GOARCH=arm     go build -o dist/$(ver)/linux-arm/dq
-	GOOS=linux   GOARCH=riscv64 go build -o dist/$(ver)/linux-riscv64/dq
-	GOOS=darwin  GOARCH=arm64   go build -o dist/$(ver)/darwin-arm64/dq
-	GOOS=darwin  GOARCH=amd64   go build -o dist/$(ver)/darwin-amd64/dq
-	GOOS=windows GOARCH=amd64   go build -o dist/$(ver)/windows-amd64/dq
+	GOOS=linux   GOARCH=amd64   go build $(go_build_flags) -o dist/$(ver)/linux-amd64/dq
+	GOOS=linux   GOARCH=arm64   go build $(go_build_flags) -o dist/$(ver)/linux-arm64/dq
+	GOOS=linux   GOARCH=arm     go build $(go_build_flags) -o dist/$(ver)/linux-arm/dq
+	GOOS=linux   GOARCH=riscv64 go build $(go_build_flags) -o dist/$(ver)/linux-riscv64/dq
+	GOOS=darwin  GOARCH=arm64   go build $(go_build_flags) -o dist/$(ver)/darwin-arm64/dq
+	GOOS=darwin  GOARCH=amd64   go build $(go_build_flags) -o dist/$(ver)/darwin-amd64/dq
+	GOOS=windows GOARCH=amd64   go build $(go_build_flags) -o dist/$(ver)/windows-amd64/dq
 
 .PHONY: package
 package:

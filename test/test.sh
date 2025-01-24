@@ -609,6 +609,18 @@ dq_supports_tomorrowutc() {
   print_ok
 }
 
+dq_regression_test_for_utc_unix_strftime() {
+  progress "regression test for utc | .unix | strftime(\"...\")"
+  now="$( $bin 'utc' )"
+  y="$( echo "$now" | jq -r '.year' )"
+  m="$( printf "%02d" "$( echo "$now" | jq -r '.month' )" )"
+  d="$( printf "%02d" "$( echo "$now" | jq -r '.day' )" )"
+  h="$( printf "%02d" "$( echo "$now" | jq -r '.hour' )" )"
+  result="$( $bin -r 'utc | .unix | strftime("%Y%m%d%H")' )"
+  assert_eq "$result" "$y$m$d$h"
+  print_ok
+}
+
 # basics
 dq_without_arguments
 dq_with_a_simple_filter
@@ -720,5 +732,8 @@ dq_supports_tomorrow
 dq_supports_todayutc
 dq_supports_yesterdayutc
 dq_supports_tomorrowutc
+
+# regression test for utc | .unix | strftime("...")
+dq_regression_test_for_utc_unix_strftime
 
 test_result=0

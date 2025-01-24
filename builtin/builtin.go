@@ -568,7 +568,7 @@ func EncapTime(t time.Time) map[string]interface{} {
 		"unixMicroString": fmt.Sprintf("%d", t.UnixMicro()),
 		"unixMilli":       t.UnixMilli(),
 		"unixMilliString": fmt.Sprintf("%d", t.UnixMilli()),
-		"unix":            t.Unix(),
+		"unix":            int(t.Unix()),
 		"unixString":      fmt.Sprintf("%d", t.Unix()),
 		"year":            year,
 		"month":           int(t.Month()),

@@ -446,6 +446,82 @@ dq_supports_torfc3339nano_filter() {
   print_ok
 }
 
+dq_supports_fromymd_function() {
+  progress "dq supports fromymd() function"
+  result="$( $bin 'fromymd(2025; 2; 26)' )"
+  assert_json_has_field "$result" "year"
+  assert_json_field_has_value "$result" "year" "2025"
+  assert_json_has_field "$result" "month"
+  assert_json_field_has_value "$result" "month" "2"
+  assert_json_has_field "$result" "day"
+  assert_json_field_has_value "$result" "day" "26"
+  assert_json_has_field "$result" "hour"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_has_field "$result" "minute"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_has_field "$result" "second"
+  assert_json_field_has_value "$result" "second" "0"
+  print_ok
+}
+
+dq_supports_fromymdz_function() {
+  progress "dq supports fromymdz() function"
+  result="$( $bin 'fromymdz(2025; 2; 26; "UTC")' )"
+  assert_json_has_field "$result" "year"
+  assert_json_field_has_value "$result" "year" "2025"
+  assert_json_has_field "$result" "month"
+  assert_json_field_has_value "$result" "month" "2"
+  assert_json_has_field "$result" "day"
+  assert_json_field_has_value "$result" "day" "26"
+  assert_json_has_field "$result" "hour"
+  assert_json_field_has_value "$result" "hour" "0"
+  assert_json_has_field "$result" "minute"
+  assert_json_field_has_value "$result" "minute" "0"
+  assert_json_has_field "$result" "second"
+  assert_json_field_has_value "$result" "second" "0"
+  assert_json_has_field "$result" "timezone.short"
+  assert_json_field_has_value "$result" "timezone.short" '"UTC"'
+  print_ok
+}
+
+dq_supports_fromymdhms_function() {
+  progress "dq supports fromymdhms() function"
+  result="$( $bin 'fromymdhms(2025; 2; 26; 17; 29; 15)' )"
+  assert_json_has_field "$result" "year"
+  assert_json_field_has_value "$result" "year" "2025"
+  assert_json_has_field "$result" "month"
+  assert_json_field_has_value "$result" "month" "2"
+  assert_json_has_field "$result" "day"
+  assert_json_field_has_value "$result" "day" "26"
+  assert_json_has_field "$result" "hour"
+  assert_json_field_has_value "$result" "hour" "17"
+  assert_json_has_field "$result" "minute"
+  assert_json_field_has_value "$result" "minute" "29"
+  assert_json_has_field "$result" "second"
+  assert_json_field_has_value "$result" "second" "15"
+  print_ok
+}
+
+dq_supports_fromymdhmsz_function() {
+  progress "dq supports fromymdhmsz() function"
+  result="$( $bin 'fromymdhmsz(2025; 2; 26; 17; 29; 15; "America/New_York")' )"
+  assert_json_has_field "$result" "year"
+  assert_json_field_has_value "$result" "year" "2025"
+  assert_json_has_field "$result" "month"
+  assert_json_field_has_value "$result" "month" "2"
+  assert_json_has_field "$result" "day"
+  assert_json_field_has_value "$result" "day" "26"
+  assert_json_has_field "$result" "hour"
+  assert_json_field_has_value "$result" "hour" "17"
+  assert_json_has_field "$result" "minute"
+  assert_json_field_has_value "$result" "minute" "29"
+  assert_json_has_field "$result" "second"
+  assert_json_field_has_value "$result" "second" "15"
+  assert_json_has_field "$result" "timezone.short"
+  assert_json_field_has_value "$result" "timezone.short" '"EST"'
+  print_ok
+}
+
 dq_fromunix_can_parse_floating_point_unix_time() {
   progress "dq fromunix can parse floating point unix time"
   result="$( $bin 'now | fromunix' )"
@@ -710,6 +786,12 @@ dq_fromrfc3339nano_filter_supports_stdin
 
 # torfc3339nano()
 dq_supports_torfc3339nano_filter
+
+# fromymd() / fromymdhms()
+dq_supports_fromymd_function
+dq_supports_fromymdz_function
+dq_supports_fromymdhms_function
+dq_supports_fromymdhmsz_function
 
 # interop with jq's date/time functions
 dq_fromunix_can_parse_floating_point_unix_time

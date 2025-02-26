@@ -253,7 +253,7 @@ func fromUnixF(f float64) (*time.Time, error) {
 	return &t, nil
 }
 
-func FromYMD(_ interface{}, args []interface{}) interface{} {
+func FromYMD(_ any, args []any) any {
 	if len(args) < 3 {
 		log.Printf("args: %v", args)
 		return errors.New("insufficient arguments")
@@ -261,58 +261,140 @@ func FromYMD(_ interface{}, args []interface{}) interface{} {
 
 	year, ok := args[0].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for year. expected int but found %T", args[0])
 	}
 
 	month, ok := args[1].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for month. expected int but found %T", args[1])
 	}
 
 	day, ok := args[2].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for day. expected int but found %T", args[2])
 	}
 
 	return EncapTime(time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.Local))
 }
 
-func FromYMDHMS(_ interface{}, args []interface{}) interface{} {
+func FromYMDTimeZone(_ any, args []any) any {
+	if len(args) < 4 {
+		log.Printf("args: %v", args)
+		return errors.New("insufficient arguments")
+	}
+
+	year, ok := args[0].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for year. expected int but found %T", args[0])
+	}
+
+	month, ok := args[1].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for month. expected int but found %T", args[1])
+	}
+
+	day, ok := args[2].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for day. expected int but found %T", args[2])
+	}
+
+	tzStr, ok := args[3].(string)
+	if !ok {
+		return errors.Errorf("unexpected argument type for timezone. expected string but found %T", args[3])
+	}
+
+	tz, err := time.LoadLocation(tzStr)
+	if err != nil {
+		return errors.Errorf("unable to load timezone '%s': %v", tzStr, err)
+	}
+
+	return EncapTime(time.Date(year, time.Month(month), day, 0, 0, 0, 0, tz))
+}
+
+func FromYMDHMS(_ any, args []any) any {
 	if len(args) < 6 {
 		return errors.New("insufficient arguments")
 	}
 
 	year, ok := args[0].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for year. expected int but found %T", args[0])
 	}
 
 	month, ok := args[1].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for month. expected int but found %T", args[1])
 	}
 
 	day, ok := args[2].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for day. expected int but found %T", args[2])
 	}
 
 	hour, ok := args[3].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for hour. expected int but found %T", args[3])
 	}
 
 	minute, ok := args[4].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for minute. expected int but found %T", args[4])
 	}
 
 	second, ok := args[5].(int)
 	if !ok {
-		return errors.New("unexpected argument type")
+		return errors.Errorf("unexpected argument type for second. expected int but found %T", args[5])
 	}
 
 	return EncapTime(time.Date(year, time.Month(month), day, hour, minute, second, 0, time.Local))
+}
+
+func FromYMDHMSTimeZone(_ any, args []any) any {
+	if len(args) < 7 {
+		return errors.New("insufficient arguments")
+	}
+
+	year, ok := args[0].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for year. expected int but found %T", args[0])
+	}
+
+	month, ok := args[1].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for month. expected int but found %T", args[1])
+	}
+
+	day, ok := args[2].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for day. expected int but found %T", args[2])
+	}
+
+	hour, ok := args[3].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for hour. expected int but found %T", args[3])
+	}
+
+	minute, ok := args[4].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for minute. expected int but found %T", args[4])
+	}
+
+	second, ok := args[5].(int)
+	if !ok {
+		return errors.Errorf("unexpected argument type for second. expected int but found %T", args[5])
+	}
+
+	tzStr, ok := args[6].(string)
+	if !ok {
+		return errors.Errorf("unexpected argument type for timezone. expected string but found %T", args[6])
+	}
+
+	tz, err := time.LoadLocation(tzStr)
+	if err != nil {
+		return errors.Errorf("unable to load timezone '%s': %v", tzStr, err)
+	}
+
+	return EncapTime(time.Date(year, time.Month(month), day, hour, minute, second, 0, tz))
 }
 
 type BuiltinFn func(interface{}, []interface{}) interface{}

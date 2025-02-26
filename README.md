@@ -795,7 +795,7 @@ If the commands above did not work well, or if you want to install older version
     ```
     </details>
 
-  - From Year / Month / Day
+  - From Year / Month / Day (/ Timezone)
     <details>
     <summary><code>fromymd</code> (<code>from_ymd</code>) </summary>
 
@@ -815,7 +815,27 @@ If the commands above did not work well, or if you want to install older version
     ```
     </details>
 
-  - From Year / Month / Day / Hour / Minute / Second
+    <details>
+    <summary><code>fromymdz</code> (<code>from_ymdz</code>) </summary>
+
+    Generate $time$ object by specifying year, month and day.
+
+    $y, m, d: integer, tz: string \rightarrow t: time$
+
+    - $y$: year
+    - $m$: month [1-12]
+    - $d$: day [1-31]
+    - $tz$: timezone (location name in IANA Time Zone database, such as "America/New_York" or short form such as "GMT", "PST" or "UTC")
+    - $t$: $time$ object representing the specified date
+
+    e.g.)
+    ```
+    $ dq 'fromymdz(2022;11;26;"America/New_York") | .rfc3339'
+    "2022-11-26T00:00:00-05:00"
+    ```
+    </details>
+
+  - From Year / Month / Day / Hour / Minute / Second (/ Timezone)
     <details>
     <summary><code>fromymdhms</code> (<code>from_ymdhms</code>) </summary>
 
@@ -835,6 +855,29 @@ If the commands above did not work well, or if you want to install older version
     ```
     $ dq 'fromymdhms(2022;11;26;9;23;18) | .rfc3339'
     "2022-11-26T09:23:18+09:00"
+    ```
+    </details>
+
+    <details>
+    <summary><code>fromymdhmsz</code> (<code>from_ymdhmsz</code>) </summary>
+
+    Generate $time$ object by specifying year, month, day, hour, minute and second.
+
+    $y, mon, d, h, min, s: integer, tz: string \rightarrow t: time$
+
+    - $y$: year
+    - $mon$: month [1-12]
+    - $d$: day [1-31]
+    - $h$: hour [0-23]
+    - $min$: minute [0-59]
+    - $sec$: second [0-59]
+    - $tz$: timezone (location name in IANA Time Zone database, such as "America/New_York" or short form such as "GMT", "PST" or "UTC")
+    - $t$: $time$ object representing the specified date / time
+
+    e.g.)
+    ```
+    $ dq 'fromymdhmsz(2022;11;26;9;23;18;"UTC") | .rfc3339'
+    "2022-11-26T09:23:18Z"
     ```
     </details>
 
